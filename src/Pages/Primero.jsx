@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Button, Col, Row, } from 'react-bootstrap/';
 import Mapa from '../components/Mapa'
 import '../Styles/Primero.css'
+import { Link } from "react-router-dom";
 
 //imagenes
 import fondo1 from '../assets/Fondo1.jpg'
@@ -22,9 +23,11 @@ function Primero() {
           <h3> ¿Es tu primer día de escalada en nuestro roco? </h3>
           <h4> ¡Encantados de conocerte! </h4>
           <p> Te recomendamos que te registres en nuestra web. No tardarás nada y prometemos no enviarte peromociones todas las semanas... nuestra mejor publi es que vengas a vernos. Además, ¡Podrás ver contenido exclusivo para nuestros socios, participar en competiciones, y muchas cosas más!</p>
-          <Button variant="primary" className="primero-btn">
-            Quiero registrarme
+          <Link to="/login" > 
+            <Button variant="primary" className="primero-btn">
+              Quiero registrarme 
             </Button>
+          </Link>
           </Row>
 
           <Row className="primero-presentacion">

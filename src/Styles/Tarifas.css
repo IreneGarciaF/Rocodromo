@@ -9,11 +9,11 @@
     margin: 0;
     padding:0;
     display: flex;
-
 }
 .seccion-tarifas {
     display: flex;
     flex-direction: column;
+    width: 100%;
     margin: 0;
     padding: 0;
     background-image: url('../assets/textura2.jpg');
@@ -23,6 +23,7 @@
 }
 .tarifas-container.row {
     padding: 0;
+    margin: 0;
     width: 100%;
     height: fit-content;
     max-height: 50vh;
@@ -62,7 +63,6 @@
     font-size: 56px;
     font-family: 'Rubik';
     text-align: center;
-    color: transparent; 
     font-weight: 800; 
     color: #212f3c;
     margin-top: 3%;
@@ -213,4 +213,129 @@
     color: #212f3c;
     margin-bottom: 3%;
     margin-top: -2%;
+}
+
+@media screen and (max-width: 1500px) {
+    .tarifas-container.row {
+        max-height: 60vh;
+
+    }
+    .tarifa-card {
+        padding: 10% 20% ;
+        min-height: 850px;
+        margin-bottom: 20%;
+    }
+    .tarifa-card .precios {
+        padding: 15px;
+        margin-left: 170%;
+        margin-top: -70%;
+        width: 13vh;
+    }
+    .imagen-centro img {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 1114px) {
+    .seccion-tarifas h2 {
+    transform: translate(0%, -180%) !important; 
+    }
+    .seccion-tarifas h6 {
+        transform: translate(0%, -780%) !important;
+    }
+
+    .tarifas-row.row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .imagen-centro img {
+        width: 100%;
+        margin-left: 15%;
+    }
+    .col1-tarifas {
+        width: 45%;
+    }
+    
+    .col2-tarifas {
+        width: 45%;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .background-tarifas {
+        height: 60vh;
+    }
+    .seccion-tarifas h2 {
+        transform: translate(0%, -180%) !important; 
+        margin: 0% 1%;    
+    }
+    .seccion-tarifas h6 {
+        transform: translate(0%, -780%) !important;
+        margin: 0% 1%;
+    }
+    .tarifas-intro h3 {
+        font-size: 40px;
+    }
+    .imagen-centro img {
+        width: 60vh;
+        margin: 1%;
+    }
+
+}
+
+@media screen and (max-width: 696px) {
+    .seccion-tarifas h6 {
+        transform: translate(0%, -400%) !important;
+    }
+    .tarifa-card {
+        margin-left:  4%;
+
+    }
+    .col1-tarifas {
+        width: 65%;
+    }
+    
+    .col2-tarifas {
+        width: 65%;
+    }
+
+}
+
+@media screen and (max-width: 564px) {
+    .seccion-tarifas h2 {
+        transform: translate(0%, -200%) !important; 
+        font-size: 60px;
+        -webkit-text-stroke: 2px white;
+
+    }
+    .seccion-tarifas h6 {
+        transform: translate(0%, -400%) !important;
+        font-size: 28px;
+    }
+    .imagen-centro img {
+        width: 50vh;
+    }
+
+}
+
+@media screen and (max-width: 430px) {
+    .background-tarifas {
+        height: 70vh;
+    }
+    .seccion-tarifas h2 {
+        transform: translate(0%, -160%) !important; 
+    }
+    .seccion-tarifas h6 {
+        transform: translate(0%, -500%) !important;
+    }
+    .tarifas-intro h3 {
+        margin-top: 30%;
+        margin-bottom: 3%;
+    }
+    .imagen-centro img {
+        width: 35vh;
+    }
+
 }

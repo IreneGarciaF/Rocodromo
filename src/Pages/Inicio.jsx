@@ -30,16 +30,15 @@ function Inicio() {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         setUser(currentUser);  // El usuario está autenticado
-        navigate("/");  // Redirige al dashboard o página principal
       } else {
         setUser(null);  // El usuario no está autenticado
-        navigate("/login");  // Redirige al login
       }
     });
-
+  
     return () => unsubscribe();
-  }, [navigate]);
-
+  }, []);
+  
+  
   // Maneja los cambios en el formulario de login
   const handleLoginChange = (e) => {
     const { name, value } = e.target;
@@ -149,7 +148,7 @@ function Inicio() {
         <Row>
         <div className="tarjetas-container">
           <Col xs={4} md={4} className="col3-inicio">
-          <Link to="/" className="card-link">
+          <Link to="/contacto" className="card-link">
             <div className="recuadro-inicio">
               <img className="icono-img" src={icono5} alt="Icono" />
               <h5>Contacto</h5>
@@ -169,7 +168,7 @@ function Inicio() {
           </Col>
 
           <Col xs={4} md={4} className="col5-inicio">
-          <Link to="/" className="card-link">
+          <Link to="/usuarios" className="card-link">
             <div className="recuadro-inicio">
               <img className="icono-img" src={icono4} alt="Icono" />
               <h5>Zona de socios</h5>

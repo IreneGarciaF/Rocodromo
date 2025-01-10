@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
 .background-primero {
     width: 100%;
     height: 50vh;
@@ -5,7 +7,6 @@
     object-position: 20% 25%;
     margin: 0;
     padding:0;
-
 }
 
 .intro-primero {
@@ -211,4 +212,107 @@
     padding-bottom: 7%;
     width: 80%;
     margin-left: 10%;
+}
+
+@media screen and (max-width: 1400px) {
+    .col3-primero {
+        height: 95vh !important;
+    }
+}
+
+@media screen and (max-width: 1150px) {
+    .consejos-container {
+        display: flex;
+        flex-direction: column;
+        margin-top: 5%;
+    }
+
+    .col3-primero {
+        width: 40%;
+        height: auto !important;
+    }
+    .icono-primero {
+        margin: -25%  10% 10% 30% ;
+      }
+    
+}
+
+@media screen and (max-width: 890px) {
+    .primero-presentacion {
+        margin: -10% 0 7% 7%;
+    }
+    .primero-btn {
+        width: 25%;
+        display: flex;
+        justify-content: center;
+        margin: 10% 40%;
+    }
+    .seccion-primero h1 {
+        left: 10%;
+        transform: translate(0%, -130%) !important; 
+    }
+
+    .seccion-primero h2 {
+        left: 90%;
+        transform: translate(0%, -480%) !important;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .background-primero {
+        height: 60vh;
+        margin-top: 10% !important;
+        padding:0;
+    }
+
+    .seccion-primero h1 {
+       font-size: 60px ;
+       transform: translate(0%, -190%) !important; 
+    }
+
+    .primero-presentacion h3 {
+        font-size: 35px;
+    }
+    
+    .primero-presentacion h4 {
+        font-size: 28px;
+    }
+
+    .primero-presentacion p {
+        font-size: 18px;
+    }
+
+    .primero-mapa h5 {
+        font-size: 45px;
+    }
+    
+    .primero-mapa h6 {
+        font-size: 26px;
+    }
+    .primero-mapa p {
+        font-size: 18px;
+    }
+   
+    .info-primero p {
+        font-size: 16px;
+    }   
+    
+}
+
+@media screen and (max-width: 410px) {
+    .seccion-primero h1 {
+        font-size: 40px;
+        font-weight: 900;
+        -webkit-text-stroke: 2px white;
+    }
+    .icono-primero {
+        width: 100px;
+        padding: 3%;
+        margin: -35%  10% 10% 20% ;
+      }
+      .col3-primero {
+        width: 60%;
+        margin-top: 18% !important;
+      }
+
 }

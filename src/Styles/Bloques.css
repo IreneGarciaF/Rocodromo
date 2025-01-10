@@ -1,0 +1,222 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
+.bloque-container {
+  display: flex;
+  width: 40%;
+  border: none;
+  background-color: transparent;
+}
+
+.valoracion-container {
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1%;
+    font-family: 'Rubik';
+    border: none; 
+    display: flex;
+    align-items: center;
+    flex-direction: row !important;
+}
+
+.valoracion-container .card {
+    display: flex;
+    flex-direction: row !important;
+    align-items: center;
+    justify-content: center;
+}
+
+.img-bloque {
+    width: 30vh;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+ .card-body .form-check {
+    font-size: 20px;
+    font-weight: 600;
+    color: #212f3c;
+    align-items: center;
+ }
+
+
+ .valoracion-estrellas .info-icon {
+  font-size: 20px;
+
+ }
+
+ .valoracion-estrellas.form-label {
+    font-size: 35px;
+    font-weight: 300;
+    color: #1889d4;
+    display: flex;
+    align-items: flex-start;
+    align-content: center;
+ }
+
+
+ .estrellas {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 15px;
+  width: 12vh;
+ }
+
+ .estrellas svg {
+  font-size: 2rem;  
+  cursor: pointer; 
+}
+
+.comentario-bloque { 
+  font-size: 30px;
+  font-weight: 300;
+  color: #212f3c;
+  align-items: center;
+}
+.comentario-bloque p {
+  font-size: 20px;
+  font-weight: 300;
+  color: #212f3c9d;
+  align-items: center;
+  margin-bottom: 0;
+}
+.comentario-bloque .form-label {
+  display: flex;
+  justify-content: flex-start;
+  text-align: center;
+  align-content: center;
+  align-items: baseline;
+  flex-direction: row;
+}
+
+.comentario-bloque {
+  margin-bottom: 10%;
+}
+.card-title {
+  font-size: 50px;
+  font-family: 'Rubik';
+  text-align: center;
+  color: #212f3c; 
+  letter-spacing: 3px; 
+  font-weight: 800; 
+  text-align: left;
+}
+
+.comentario-btn {
+  padding: 4% 10%;
+  border: none;
+  font-size: 18px;
+  background: #1889d4 ;
+  color: white;
+  cursor: pointer;
+  outline: none;
+  margin-bottom: 10%;
+}
+
+.comentario-btn:hover {
+  background: #0c9eff;
+}
+
+.comentarios-card {
+  border: none;
+  background-color: transparent;
+}
+
+.comentarios-card h5 {
+  font-size: 35px;
+  font-weight: 300;
+  color: #1889d4;
+}
+
+.comentarios-card h6 {
+  font-size: 26px;
+  font-weight: 200;
+  color: #212f3c;
+  margin-top: 3%;
+}
+.comentarios-card p {
+  font-size: 20px;
+  font-weight: 500;
+  color: #212f3c;
+
+}
+
+
+    @media screen and (max-width: 1500px) {  
+    .comentarios-card {
+      width: 200%;
+    }
+  }
+
+  @media screen and (max-width: 687px) {
+
+    .comentarios-card h5 {
+      font-size: 28px;
+    }
+    
+    .comentarios-card h6 {
+      font-size: 22px;
+    }
+    .comentarios-card p {
+      font-size: 16px;
+    }
+    .card-title {
+      font-size: 36px;
+    }
+    .card-body .form-check {
+      font-size: 16px;
+  }
+
+  .valoracion-estrellas .info-icon {
+    font-size: 16px;
+  }
+
+  .valoracion-estrellas.form-label {
+      font-size: 30px;
+    }
+
+  .estrellas svg {
+    font-size: 1.8rem;  
+  }
+  .comentario-bloque { 
+    font-size: 24px;
+  }
+  .comentario-bloque p {
+    font-size: 14px;
+  }
+  .comentario-btn {
+    padding: 3% 8%;
+    font-size: 14px;
+  }
+   
+  }
+
+  @media screen and (max-width: 580px) {
+    .valoracion-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      margin-left: 25% !important;
+    }
+
+    .comentarios-card {
+      margin-left: 25% !important;
+      width: 150%;
+    }
+
+  }
+
+  @media screen and (max-width: 400px) {
+    .valoracion-container {
+      margin-left: 5% !important;
+    }
+
+    .comentarios-card {
+      margin-left: 5% !important;
+      width: 250%;
+    }
+
+  }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, createContext, useContext } from "react";
 import { Button, Form } from "react-bootstrap";
+import { useNavigate } from 'react-router-dom';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
@@ -28,6 +29,8 @@ const LoginRegister = () => {
   // Contexto para el usuario
   const UserContext = createContext();
   const useUser = () => useContext(UserContext);
+
+  const navigate = useNavigate();
 
   // Validación de la contraseña y comparación con la confirmación
   useEffect(() => {
@@ -84,6 +87,7 @@ const LoginRegister = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       setLoginData({ email: "", password: ""});
+      navigate('/usuarios'); 
     } catch (error) {
       setErrorMsg("Error al iniciar sesión: " + error.message);
     }
@@ -151,9 +155,31 @@ const LoginRegister = () => {
                 {!validPwd && <div className="error-message">La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una minúscula, un número y un carácter especial.</div>}
               </Form.Group>
               <Form.Group controlId="formBasicConfirmPassword">
-                <Form.Control type="password" placeholder="Repite tu contraseña" name="confirmPassword" value={registerData.confirmPassword} onChange={handleChange} />
-                {!validMatch && <div className="error-message">Las contraseñas no coinciden</div>}
+                <Form.Control
+                  type="password"
+                  placeholder="Repite tu contraseña"
+                  name="confirmPassword"
+                  value={registerData.confirmPassword}
+                  onChange={handleChange}
+                />
+                {registerData.confirmPassword && (
+                  <div className="password-feedback">
+                    {!validMatch && (
+                      <div className="error-message">
+                        Las contraseñas no coinciden
+                        <FaTimes className="invalid-icon" />
+                      </div>
+                    )}
+                    {validMatch && (
+                      <div className="valid-message">
+                        Las contraseñas coinciden
+                        <FaCheck className="valid-icon" />
+                      </div>
+                    )}
+                  </div>
+                )}
               </Form.Group>
+
               <Button type="submit" disabled={!validMatch}>Registrarse</Button>
             </Form>
           </div>

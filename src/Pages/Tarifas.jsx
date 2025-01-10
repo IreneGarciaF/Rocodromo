@@ -17,7 +17,6 @@ const stripePromise = loadStripe('pk_test_51QcqgCQG9VO4iB056SAGDlNBtSlQz3ehdXSEu
  
 function Tarifas() {
 
-  console.log("Firebase conectado y listo para usar");
   
   const [userId, setUserId] = useState(null);
   useEffect(() => {
@@ -80,56 +79,59 @@ function Tarifas() {
 
   
 
-  // Función para manejar la suscripción
-  const handleCheckoutSubscription = async (priceId, name) => {
+// Función para manejar la suscripción
+const handleCheckoutSubscription = async (priceId, name) => {
+  const stripe = await stripePromise;
 
-    const userId = userId; 
-    const stripe = await stripePromise;
+  // Verifica que userId esté disponible
+  if (!userId) {
+    console.error('userId is missing');
+    return;
+  }
 
-    if (!userId) {
-      console.error('userId is missing');
-      return;
-    }
-  
-    const items = [
-      {
-        name,
-        priceId: priceId,
-        quantity: 1,
+  // Verifica que priceId y name estén definidos
+  if (!priceId || !name) {
+    console.error('priceId or name is missing');
+    return;
+  }
+
+  try {
+    // Enviar los datos al backend para crear la sesión de suscripción
+    const response = await fetch('http://localhost:3001/create-checkout-session-subscription', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
       },
-    ];
-  
-    try {
-      // Enviar la solicitud al backend para crear la sesión de suscripción
-      const response = await fetch('http://localhost:3001/create-checkout-session-subscription', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ items }),
-      });
-  
-      if (!response.ok) {
-        throw new Error('Error al crear la sesión de suscripción');
-      }
-  
-      const session = await response.json();
-  
-      // Redirigir al usuario a Stripe Checkout
-      const { error } = await stripe.redirectToCheckout({
-        sessionId: session.id,
-      });
-  
-      if (error) {
-        console.error('Error al redirigir al checkout:', error);
-      }
-    } catch (error) {
-      console.error('Error en el frontend al crear la sesión de suscripción:', error);
+      body: JSON.stringify({
+        userId, // El userId del usuario logueado
+        priceId, // El priceId correspondiente al plan de suscripción
+        name, // El nombre del producto o plan de suscripción
+      }),
+    });
+
+    // Verifica si la respuesta no es OK
+    if (!response.ok) {
+      const errorData = await response.json(); // Asegúrate de que la respuesta esté en formato JSON
+      alert(errorData.error);  // Mostrar el mensaje de error del backend
+      return;  // Evitar continuar si hay un error
     }
-  };
-  
-  
-  
+
+    const session = await response.json();
+
+    // Redirigir al usuario a Stripe Checkout
+    const { error } = await stripe.redirectToCheckout({
+      sessionId: session.id, // Usamos el ID de la sesión de Stripe
+    });
+
+    if (error) {
+      console.error('Error al redirigir al checkout:', error);
+    }
+  } catch (error) {
+    console.error('Error al enviar la solicitud al backend:', error);
+    alert('Error al comunicarse con el servidor. Por favor, inténtalo de nuevo más tarde.');
+  }
+};
+ 
 
   return (
     <div>
@@ -157,7 +159,7 @@ function Tarifas() {
           </div>
           <div 
             className="precios" 
-            onClick={() => handleCheckout('price_1QcqlcQG9VO4iB05PdHXTAeM', '1 día para adultos')}
+            onClick={() => handleCheckout('price_1QcqlcQG9VO4iB05PdHXTAeM', 'Entrada de día para adultos')}
           >
             <span className="precio">13,50 €</span>
             <FontAwesomeIcon icon={faPaperPlane} className="icono-flecha" />
@@ -169,7 +171,7 @@ function Tarifas() {
           </div>
           <div 
             className="precios" 
-            onClick={() => handleCheckout('price_1QcqnUQG9VO4iB054FkIspJX', 'Happy Hour')}
+            onClick={() => handleCheckout('price_1QcqnUQG9VO4iB054FkIspJX', 'Entrada Happy Hour Adultos')}
           >
             <span className="precio">11 €</span>
             <FontAwesomeIcon icon={faPaperPlane} className="icono-flecha" />
@@ -182,7 +184,7 @@ function Tarifas() {
           </div>
           <div 
             className="precios" 
-            onClick={() => handleCheckout('price_1Qcqo7QG9VO4iB052aKk01J3', 'Pack 10 entradas')}
+            onClick={() => handleCheckout('price_1Qcqo7QG9VO4iB052aKk01J3', 'Pack 10 entradas de día Adultos')}
           >
             <span className="precio">100 €</span>
             <FontAwesomeIcon icon={faPaperPlane} className="icono-flecha" />
@@ -201,7 +203,7 @@ function Tarifas() {
             className="precios" 
             onClick={() => handleCheckoutSubscription('price_1QdTYXQG9VO4iB05mz8t4Agd', 'Abono mensual adultos')}
           >
-            <span className="precio">13,50 €</span>
+            <span className="precio">48 €</span>
             <FontAwesomeIcon icon={faPaperPlane} className="icono-flecha" />
           </div>
 
@@ -213,7 +215,7 @@ function Tarifas() {
             className="precios" 
             onClick={() => handleCheckoutSubscription('price_1QdTZZQG9VO4iB056p4UPEdk', 'Abono anual adultos')}
           >
-            <span className="precio">13,50 €</span>
+            <span className="precio">420 €</span>
             <FontAwesomeIcon icon={faPaperPlane} className="icono-flecha" />
           </div>
 

@@ -186,6 +186,40 @@
         font-size: 20px;
       }
       
+      .password-feedback {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 5px;
+      }
+      
+      .error-message {
+        color: #212f3c;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+      }
+      
+      .valid-message {
+        color: #212f3c;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+      }
+      
+      .invalid-icon,
+      .valid-icon {
+        margin-left: 10px;
+      }
+      
+      .invalid-icon {
+        color: red;
+      }
+      
+      .valid-icon {
+        color: green;
+      }
+      
     
     
     /* Responsive design*/

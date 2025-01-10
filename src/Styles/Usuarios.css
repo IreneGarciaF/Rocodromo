@@ -1,0 +1,249 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
+.background-usuarios {
+    width: 100%;
+    height: 50vh;
+    object-fit: cover;
+    object-position: 20% 25%;
+    margin: 0;
+    padding:0;
+    display: flex;
+
+}
+
+.seccion-usuarios h2 {
+    left: 10%;
+    transform: translate(0%, -300%);
+    font-size: 80px;
+    font-family: 'Rubik';
+    text-align: center;
+    color: transparent; 
+    font-weight: 800; 
+    -webkit-text-stroke: 3px white;
+}
+
+.usuarios-productos {
+    display: flex; 
+    flex-direction: column;              
+    justify-content: center;   
+    align-items: center;
+    background-color: #b7bdc2;
+    padding-top: 5%;
+    margin-top: -8%;
+}
+
+.usuarios-productos h1{
+    font-size: 56px;
+    font-family: 'Rubik';
+    text-align: center;
+    font-weight: 800; 
+    color: #212f3c;
+}
+
+.usuarios-productos h3 {
+    font-size: 36px;
+    font-family: 'Rubik';
+    text-align: center;
+    font-weight: 300; 
+    color: #1889d4 ;
+    margin-top: 3%;
+}
+
+ h6 {
+    font-family: 'Rubik';
+    font-size: 24px;
+    font-weight: 600;
+    color: #212f3c;
+}
+
+h5 {
+    font-family: 'Rubik';
+    font-size: 28px;
+    font-weight: 200;
+    color: #212f3c;
+}
+
+p {
+    font-family: 'Rubik';
+    font-size: 20px;
+    font-weight: 500;
+    color: #1889d4 ;
+}
+
+
+.product-name-row {
+    display: flex;
+    align-items: center;
+    gap: 8px; 
+}
+  
+.product-info {
+    margin-top: 8px;
+}
+
+.utilizar-btn {
+    border: none;
+    font-size: 18px;
+    font-weight: 400;
+    background:  #1889d4 ;
+    color: white;
+    cursor: pointer;
+    outline: none;
+    margin-bottom: 5%;
+}
+
+.utilizar-btn:hover {
+    background: #0c9eff;
+}
+
+.lista-productos {
+    margin-left: 30%;
+}
+
+
+.modal-body-centered {
+    display: flex;
+    flex-direction: column;  
+    justify-content: center; 
+    align-items: center;   
+    text-align: center;    
+  }
+ 
+  .modal-footer-centered {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+  }
+
+  
+  .seccion-escalada {
+    display: flex; 
+    flex-direction: column;              
+    justify-content: center;   
+    align-items: center;
+    background-color: #d6dbdf;
+  }
+
+  .seccion-escalada h3 {
+    font-size: 56px;
+    font-family: 'Rubik';
+    text-align: center;
+    font-weight: 800; 
+    color: #212f3c;
+    margin-top: 2%;
+  }
+
+  .seccion-escalada h4 {
+    font-size: 36px;
+    font-family: 'Rubik';
+    text-align: center;
+    font-weight: 300; 
+    color: #1889d4 ;
+    margin-top: 1%;
+    margin-bottom: 3%;
+  }
+
+  .bloque-bloques {
+    display: flex;
+    margin-left: 5%;
+  }
+
+  @media screen and (max-width: 1800px) {
+  .bloque-bloques {
+    margin-left: 0 !important;
+    width: 90%;
+  }
+}
+
+  @media screen and (max-width: 1300px) {
+    .usuarios-productos {
+        padding-top: 5%;
+        margin-top: -12%;
+    }
+    .seccion-escalada h3 {
+        padding: 3% 3% 5% 3%; 
+      }
+    
+      .seccion-escalada h4 {
+        padding: 3% 3% 5% 3%;      
+      }
+      .usuarios-productos h1{
+        padding: 3% 3% 0 3%; 
+    }
+    .usuarios-productos h3 {
+        padding: 3% 3% 3% 3%; 
+    }
+    
+  }
+
+  @media screen and (max-width: 1210px) {
+    .bloque-bloques {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        align-content: center;
+      }
+  }
+
+  @media screen and (max-width: 900px) {
+    .usuarios-productos {
+        padding-top: 10%;
+        margin-top: -16%;
+    }
+    .usuarios-productos h1{
+        font-size: 46px;
+    }
+    .usuarios-productos h3 {
+        font-size: 30px;
+    }
+    
+     h6 {
+        font-size: 18px;
+    }
+    
+    h5 {
+        font-size: 20px;
+    }
+    
+    p {
+        font-size: 20px;
+    }
+
+    .seccion-escalada h3 {
+        font-size: 40px;
+        margin-top: 4%;
+      }
+    
+      .seccion-escalada h4 {
+        font-size: 28px;
+        padding: 3% 3% 5% 3%;
+       
+      }
+  }
+
+  @media screen and (max-width: 687px) {
+    .usuarios-productos {
+        padding-top: 25%;
+        margin-top: -35%;
+    }
+    .seccion-usuarios h2 {
+        font-size: 65px;
+        transform: translate(0%, -200%);
+        -webkit-text-stroke: 2px white;
+    }
+    .usuarios-productos h1{
+        font-size: 36px;
+        padding: 0 10%;
+    }
+  }
+
+  
+  @media screen and (max-width: 558px) {
+    .usuarios-productos {
+        padding-top: 40%;
+        margin-top: -65%;
+    }
+    .seccion-usuarios h2 {
+        transform: translate(0%, -120%);
+    }
+  }

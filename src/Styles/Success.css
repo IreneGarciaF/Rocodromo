@@ -1,0 +1,138 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+.background-success {
+    width: 100%;
+    height: 50vh;
+    object-fit: cover;
+    object-position: 20% 25%;
+    margin: 0;
+    padding:0;
+    display: flex;
+
+}
+
+.seccion-success h2 {
+    left: 10%;
+    transform: translate(0%, -300%);
+    font-size: 80px;
+    font-family: 'Rubik';
+    text-align: center;
+    color: transparent; 
+    font-weight: 800; 
+    -webkit-text-stroke: 3px white;
+}
+
+.success-container {
+    background-color: #d6dbdf;
+}
+
+.compra-container {
+    background-color: #d6dbdf;
+    margin-top: -3%;
+}
+
+.compra-container h1 {
+    font-size: 60px;
+    font-family: 'Rubik';
+    text-align: center;
+    color: transparent; 
+    font-weight: 600; 
+    -webkit-text-stroke: 2px #1889d4;
+}
+
+.compra-container h5 {
+    font-size: 25px;
+    font-family: 'Rubik';
+    text-align: center;
+    color: #212f3c; 
+    font-weight: 300; 
+    margin-top: 2%;
+}
+
+.compra-container h6 {
+    font-size: 30px;
+    font-family: 'Rubik';
+    text-align: center;
+    color: #212f3c; 
+    font-weight: 700; 
+    margin-top: 0;
+}
+
+.compra-container p {
+    font-size: 20px;
+    font-family: 'Rubik';
+    text-align: center;
+    color: #212f3c; 
+    font-weight: 300; 
+    margin-top: 1%;
+}
+
+.success-btn {
+    padding: 10px 40px;
+    margin: 2%  0 10% 46% ;
+    border: none;
+    font-size: 14px;
+    background: #1889d4 ;
+    color: white;
+    cursor: pointer;
+    outline: none;
+}
+
+.success-btn:hover {
+    background: #0c9eff;
+}
+
+@media screen and (max-width: 1243px) {
+    .seccion-success h2 {  
+        transform: translate(0%, -180%);
+        -webkit-text-stroke: 3px white;
+    }
+    .success-btn {
+        margin: 2%  0 10% 36% ;
+    }
+    
+}
+
+@media screen and (max-width: 680px) {
+    .seccion-success h2 {  
+        font-size: 60px;
+        -webkit-text-stroke: 2px white;
+    }
+    .compra-container h1 {
+        font-size: 40px;
+    }
+    .compra-container h5 {
+        font-size: 20px;
+    }
+    
+    .compra-container h6 {
+        font-size: 24px;
+    }
+    
+    .compra-container p {
+        font-size: 18px;
+    }    
+    
+}
+
+@media screen and (max-width: 460px) {
+    .seccion-success h2 {  
+        width: 70%;
+        font-size: 45px;
+    }
+    .compra-container h1 {
+        font-size: 40px;
+    }
+    .compra-container h5 {
+        font-size: 20px;
+    }
+    
+    .compra-container h6 {
+        font-size: 24px;
+    }
+    
+    .compra-container p {
+        font-size: 18px;
+    }    
+    
+}

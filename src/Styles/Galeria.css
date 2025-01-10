@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
 .background-galeria {
     width: 100%;
     height: 50vh;
@@ -181,3 +183,69 @@
   background-color: #9a9c9e6b;
 }
 
+
+
+@media screen and (max-width: 1670px) {
+
+    .col2-galeria .galeria2 {
+        width: 90%;
+        height: 90%;
+    }
+    .col1-galeria .galeria1 {
+      width: 90%;
+      height: 90%;
+    }
+    .col3-galeria .galeria3 {
+      width: 80%;
+      height: 90%;
+    }
+    .col3-galeria .galeria4 {
+      width: 80%;
+      height: 90%;
+  }
+
+}
+
+  @media screen and (max-width: 714px) {
+    .seccion-galeria h1 {
+      transform: translate(0%, -130%) !important; 
+    }
+    
+    .seccion-galeria h2 {
+      margin: -15% 0 5% 15%  ;
+      width: 70%;
+    }
+  }
+
+  @media screen and (max-width: 496px) {
+    .background-galeria {
+      height: 65vh;
+  }
+    .seccion-galeria h1 {
+      font-size: 60px;
+      transform: translate(0%, -150%) !important; 
+      -webkit-text-stroke: 2px white;
+  }
+
+  .seccion-galeria h2 {
+    font-size: 26px;
+  }
+
+  .col2-galeria .galeria2 {
+    width: 100%;
+    height: 10%;
+    }
+    .col1-galeria .galeria1 {
+      width: 100%;
+    height: 10%;
+    }
+    .col3-galeria .galeria3 {
+      width: 100%;
+    height: 10%;
+    }
+    .col3-galeria .galeria4 {
+      width: 100%;
+    height: 10%;
+    }
+
+  }
