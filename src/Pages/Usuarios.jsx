@@ -87,7 +87,7 @@ function Usuarios() {
   
       try {
         // Llamamos al backend para obtener las compras del usuario
-        const response = await fetch(`http://localhost:3001/get-compras/${userId}`);
+        const response = await fetch(`https://git.heroku.com/rocodromo.git/get-compras/${userId}`);
         if (!response.ok) {
           throw new Error("Error en la solicitud");
         }

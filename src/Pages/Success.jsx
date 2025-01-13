@@ -57,7 +57,7 @@ function Success() {
 
     const fetchSessionData = async () => {
       try {
-        const response = await fetch(`http://localhost:3001/success?session_id=${sessionId}`);
+        const response = await fetch(`https://git.heroku.com/rocodromo.git/success?session_id=${sessionId}`);
         const data = await response.json();
 
         if (!response.ok) {

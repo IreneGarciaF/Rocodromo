@@ -282,8 +282,7 @@ app.post('/actualizar-compra', async (req, res) => {
   }
 });
 
-
-
-app.listen(3001, () => {
-  console.log('Server running on port 3001');
+const port = process.env.PORT || 5000;  // Usa el puerto proporcionado por Heroku o 5000 en local
+app.listen(port, () => {
+  console.log(`Servidor corriendo en el puerto ${port}`);
 });
