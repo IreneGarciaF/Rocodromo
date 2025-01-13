@@ -3,6 +3,7 @@ import '../Styles/Header.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { auth } from '../../firebase-config';  // Importa auth
 import { signOut } from 'firebase/auth';
+import Swal from 'sweetalert2';
 
 // Imágenes y Bootstrap
 import logo from '../assets/logo.png';
@@ -13,19 +14,29 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Header() {
   const [user, setUser] = useState(null);
-  const [userName, setUserName] = useState(""); // Estado para el nombre del usuario
+  const [userName, setUserName] = useState(""); 
   const navigate = useNavigate();
 
   // Función de manejo de cierre de sesión
   const handleLogout = async () => {
     try {
-      await signOut(auth); // Cierra sesión en Firebase
+      await signOut(auth); 
       console.log("Sesión cerrada correctamente.");
-      setUser(null); // Limpia el estado de usuario
-      setUserName(""); // Limpia el nombre
-      navigate("/"); // Redirige al inicio
+      Swal.fire({
+              title: "¡Sesión cerrada correctamente!",
+              icon: "success",
+              draggable: true,
+            });
+      setUser(null); 
+      setUserName(""); 
+      navigate("/"); 
     } catch (error) {
       console.error("Error al cerrar sesión:", error.message);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Error al cerrar sesión",
+      });
     }
   };
 
@@ -43,9 +54,9 @@ function Header() {
             const userRef = doc(db, 'users', user.uid);
             const userSnap = await getDoc(userRef);
             if (userSnap.exists()) {
-              setUserName(userSnap.data().name); // Si existe el nombre, asignarlo
+              setUserName(userSnap.data().name); 
             } else {
-              setUserName("Usuario"); // Si no hay nombre, usar "Usuario"
+              setUserName("Usuario"); 
             }
           } catch (error) {
             console.error("Error al obtener el nombre:", error);
@@ -53,14 +64,14 @@ function Header() {
           }
         };
 
-        getUserName(); // Ejecutar la función
+        getUserName(); 
       } else {
-        setUser(null); // Limpiar el estado si no hay usuario
-        setUserName(""); // Limpiar el nombre
+        setUser(null); 
+        setUserName(""); 
       }
     });
 
-    return () => unsubscribe(); // Limpiar la suscripción cuando el componente se desmonte
+    return () => unsubscribe(); 
   }, []);
 
   return (

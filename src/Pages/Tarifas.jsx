@@ -5,6 +5,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-regular-svg-icons';
 import { getAuth,  onAuthStateChanged  } from "firebase/auth";
+import Swal from 'sweetalert2';
 
 
 //imagenes
@@ -111,16 +112,16 @@ const handleCheckoutSubscription = async (priceId, name) => {
 
     // Verifica si la respuesta no es OK
     if (!response.ok) {
-      const errorData = await response.json(); // Asegúrate de que la respuesta esté en formato JSON
-      alert(errorData.error);  // Mostrar el mensaje de error del backend
-      return;  // Evitar continuar si hay un error
+      const errorData = await response.json(); 
+      alert(errorData.error); 
+      return;  
     }
 
     const session = await response.json();
 
     // Redirigir al usuario a Stripe Checkout
     const { error } = await stripe.redirectToCheckout({
-      sessionId: session.id, // Usamos el ID de la sesión de Stripe
+      sessionId: session.id, 
     });
 
     if (error) {
@@ -128,7 +129,11 @@ const handleCheckoutSubscription = async (priceId, name) => {
     }
   } catch (error) {
     console.error('Error al enviar la solicitud al backend:', error);
-    alert('Error al comunicarse con el servidor. Por favor, inténtalo de nuevo más tarde.');
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Error al comunicarse con el servidor, por favor inténtalo de nuevo más tarde.",
+    });
   }
 };
  

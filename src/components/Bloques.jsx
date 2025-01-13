@@ -5,6 +5,7 @@ import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { getFirestore, collection, addDoc, getDocs, serverTimestamp, doc, getDoc } from 'firebase/firestore';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { db } from '../../firebase-config'
+import Swal from 'sweetalert2';
 import '../Styles/Bloques.css';
 
 //imágenes
@@ -50,14 +51,18 @@ const Bloques = ({ image, name, blockId }) => {  // Ahora recibimos `blockId` co
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+    
         if (!user || !user.uid) {
-            alert("Por favor, inicia sesión para poder dejar un comentario.");
+            await Swal.fire({
+                icon: "warning",
+                title: "¡No sabemos quien eres!",
+                text: "Por favor, inicia sesión antes de dejar un comentario",
+            });
             return;
         }
-
+    
         const username = user.name || "Usuario anónimo";
-
+    
         const newComment = {
             blockId,  
             userId: user.uid,
@@ -65,21 +70,36 @@ const Bloques = ({ image, name, blockId }) => {  // Ahora recibimos `blockId` co
             rating,
             comment,
             hasClimbed,
-            timestamp: serverTimestamp()
+            timestamp: serverTimestamp(),
         };
-
+    
         try {
             const db = getFirestore();
             const commentsRef = collection(db, 'comments');
             await addDoc(commentsRef, newComment);
+    
             setComments([...comments, newComment]);
             setComment('');
             setHasClimbed(false);
             setRating(0);
+    
+            // Esperar a que SweetAlert2 se cierre antes de continuar
+            await Swal.fire({
+                title: "¡Muchas gracias por tu comentario!",
+                icon: "success",
+                draggable: true,
+            });
+    
         } catch (error) {
             console.error("Error al agregar comentario: ", error);
+            await Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Ha habido un error al publicar tu comentario",
+            });
         }
     };
+    
 
     useEffect(() => {
         fetchComments();

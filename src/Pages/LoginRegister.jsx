@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
+import Swal from 'sweetalert2';
 import '../Styles/Login.css';
 
 const USER_REGEX = /^[a-zA-Z0-9-_ \s]{3,25}$/;
@@ -87,9 +88,19 @@ const LoginRegister = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       setLoginData({ email: "", password: ""});
+      Swal.fire({
+        title: "¡Inicio de sesión exitoso!",
+        icon: "success",
+        draggable: true,
+      });
       navigate('/usuarios'); 
     } catch (error) {
       setErrorMsg("Error al iniciar sesión: " + error.message);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Ha habido un error al iniciar sesión",
+      });
     }
   };
 
@@ -106,10 +117,18 @@ const LoginRegister = () => {
       await setDoc(doc(db, "users", user.uid), { name: registerData.name, email: registerData.email, createdAt: new Date() });
       setRegisterData({ name: "", email: "", password: "", confirmPassword: "" });
       setIsRegistering(false);
-      alert("¡Te has registrado con éxito! Ya puedes iniciar sesión.");
+      Swal.fire({
+        title: "¡Te has registrado con éxito! Ya puedes iniciar sesión",
+        icon: "success",
+        draggable: true,
+      });
     } catch (error) {
       setErrorMsg("Error al registrar usuario: " + error.message);
-      alert("Error al registrar usuario: " + error.message);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Ha habido un error al registrarte, inténtalo de nuevo",
+      });
     }
   };
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
+import Swal from 'sweetalert2';
 import '../Styles/Contacto.css'; // Aquí cargamos el CSS de la página
 
 const Contacto = () => {
@@ -28,10 +29,18 @@ const Contacto = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!validEmail) {
-      setErrorMsg('Por favor ingresa un correo electrónico válido.');
+       Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Por favor, ingresa un correo electrónico válido",
+            });
       return;
     }
-    alert('Formulario enviado, te responderemos con la mayor brevedad posible');
+   Swal.fire({
+           title: "Formulario enviado, te responderemos con la mayor brevedad posible.",
+           icon: "success",
+           draggable: true,
+         });
     setContactData({ name: '', email: '', phone: '', comments: '' });
     setErrorMsg('');
   };

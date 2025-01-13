@@ -4,6 +4,7 @@ import { getFirestore, collection, getDocs, query, where, updateDoc, doc, getDoc
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import QRCode from 'react-qr-code';
 import Bloques from '../components/Bloques'
+import Swal from 'sweetalert2';
 import '../Styles/Usuarios.css'
 
 //imagnees
@@ -160,55 +161,97 @@ function Usuarios() {
   };
   const manejarUsoProducto = async (compra) => {
     if (compra.tipo === "entrada" && compra.entradasDisponibles > 0) {
-      const confirmUso = window.confirm(
-        "Estás a punto de utilizar una entrada. Hazlo en la puerta del rocódromo, ya que no podrás recuperar esta entrada. ¿Estás seguro?"
-      );
+      const result = await Swal.fire({
+        title: "Estás a punto de utilizar una entrada",
+        text: "Hazlo en la puerta del rocódromo, ya que no podrás recuperar esta entrada. ¿Estás seguro?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, usar entrada",
+        cancelButtonText: "Cancelar",
+      });
 
-      if (!confirmUso) return;
-
-      try {
-        const nuevasEntradasDisponibles = compra.entradasDisponibles - 1;
-        
-        const db = getFirestore();
-        const purchasesRef = collection(db, "purchases");
-        const q = query(purchasesRef, where("sessionId", "==", compra.sessionId));
-
-        const querySnapshot = await getDocs(q);
-
-        if (!querySnapshot.empty) {
-          const docRef = querySnapshot.docs[0].ref;
-          await updateDoc(docRef, { entradasDisponibles: nuevasEntradasDisponibles });
-
-          setCompras((prevCompras) => 
-            prevCompras.map((item) =>
-              item.sessionId === compra.sessionId
-                ? { ...item, entradasDisponibles: nuevasEntradasDisponibles }
-                : item
-            )
-          );
-
-          console.log("Entrada utilizada. Entradas disponibles actualizadas.");
+      if (result.isConfirmed) {
+        try {
+          const nuevasEntradasDisponibles = compra.entradasDisponibles - 1;
+  
+          const db = getFirestore();
+          const purchasesRef = collection(db, "purchases");
+          const q = query(purchasesRef, where("sessionId", "==", compra.sessionId));
+  
+          const querySnapshot = await getDocs(q);
+  
+          if (!querySnapshot.empty) {
+            const docRef = querySnapshot.docs[0].ref;
+            await updateDoc(docRef, { entradasDisponibles: nuevasEntradasDisponibles });
+  
+            setCompras((prevCompras) => 
+              prevCompras.map((item) =>
+                item.sessionId === compra.sessionId
+                  ? { ...item, entradasDisponibles: nuevasEntradasDisponibles }
+                  : item
+              )
+            );
+  
+            console.log("Entrada utilizada. Entradas disponibles actualizadas.");
+          }
+  
+          // Generamos un código QR después de usar la entrada
+          setQrValue(`Compra ID: ${compra.sessionId} - Producto: ${compra.name}`);
+  
+          // Mostramos el modal con el código QR
+          setShowQRCodeModal(true);
+  
+          // Notificar al usuario que la operación fue exitosa
+          Swal.fire({
+            title: "Entrada utilizada",
+            text: "¡Disfruta de tu sesión de escalada!",
+            icon: "success",
+          });
+        } catch (error) {
+          console.error("Error al actualizar las entradas disponibles:", error);
+          Swal.fire({
+            title: "Error",
+            text: "Hubo un problema al actualizar las entradas.",
+            icon: "error",
+          });
         }
-
-        // Generamos un código QR después de usar la entrada
-        setQrValue(`Compra ID: ${compra.sessionId} - Producto: ${compra.name}`);
-
-        // Mostramos el modal con el código QR
-        setShowQRCodeModal(true);
-
-      } catch (error) {
-        console.error("Error al actualizar las entradas disponibles:", error);
+      } else {
+        console.log("La acción fue cancelada.");
       }
     } else if (compra.tipo === "abono") {
-      alert("Abono utilizado. No se restan entradas.");
-
+      Swal.fire({
+        title: "Este es el código QR con tu entrada, ¡Vuelve pronto!",
+        showClass: {
+          popup: `
+            animate__animated
+            animate__fadeInUp
+            animate__faster
+          `
+        },
+        hideClass: {
+          popup: `
+            animate__animated
+            animate__fadeOutDown
+            animate__faster
+          `
+        }
+      });
+  
       // Generamos el código QR para el abono
       setQrValue(`Abono ID: ${compra.sessionId} - Producto: ${compra.name}`);
       setShowQRCodeModal(true);
     } else {
       console.log("No hay entradas disponibles para utilizar.");
+       Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "No hay entradas disponibles para utilizar",
+            });
     }
   };
+  
 
   const cerrarModal = () => {
     setShowQRCodeModal(false);

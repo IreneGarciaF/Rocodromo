@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Button, Col, Row } from 'react-bootstrap/';
+import Swal from 'sweetalert2';
 import '../Styles/Inicio.css';
 import { useNavigate, Link } from "react-router-dom";
 
@@ -29,9 +30,9 @@ function Inicio() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
-        setUser(currentUser);  // El usuario está autenticado
+        setUser(currentUser); 
       } else {
-        setUser(null);  // El usuario no está autenticado
+        setUser(null); 
       }
     });
   
@@ -39,49 +40,6 @@ function Inicio() {
   }, []);
   
   
-  // Maneja los cambios en el formulario de login
-  const handleLoginChange = (e) => {
-    const { name, value } = e.target;
-    setLoginData({ ...loginData, [name]: value });
-  };
-
-  // Maneja el envío del formulario de login
-  const handleLoginSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const userCredential = await signInWithEmailAndPassword(auth, loginData.email, loginData.password);
-      console.log("Usuario autenticado:", userCredential.user);
-      navigate("/dashboard");  // Redirige a la página del dashboard
-    } catch (error) {
-      console.error("Error al iniciar sesión:", error.message);
-    }
-  };
-
-  // Maneja los cambios en el formulario de registro
-  const handleRegisterChange = (e) => {
-    const { name, value } = e.target;
-    setRegisterData({ ...registerData, [name]: value });
-    if (name === "password" || name === "confirmPassword") {
-      setValidMatch(registerData.password === registerData.confirmPassword);
-    }
-  };
-
-  // Maneja el envío del formulario de registro
-  const handleRegisterSubmit = async (e) => {
-    e.preventDefault();
-    if (!validPwd || !validMatch) {
-      console.log("Las contraseñas no son válidas o no coinciden.");
-      return;
-    }
-
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, registerData.email, registerData.password);
-      console.log("Usuario registrado:", userCredential.user);
-      navigate("/dashboard");  // Redirige a la página del dashboard
-    } catch (error) {
-      console.error("Error al registrar usuario:", error.message);
-    }
-  };
 
   return (
     <div>
