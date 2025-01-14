@@ -16,10 +16,15 @@ admin.initializeApp({
 });
 
 const corsOptions = {
-  origin: 'https://irenegarciaf.github.io',
-  methods: 'GET,POST,OPTIONS',
-  allowedHeaders: 'Content-Type,Authorization',
+  origin: 'https://irenegarciaf.github.io',  
+  methods: ['GET', 'POST', 'OPTIONS'],      
+  allowedHeaders: ['Content-Type', 'Authorization'], 
+  credentials: true,  
 };
+
+
+app.use(cors(corsOptions));  // Aplica CORS a todas las rutas
+
 
 const db = admin.firestore();  
 
