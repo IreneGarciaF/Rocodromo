@@ -8,7 +8,7 @@ import Swal from 'sweetalert2';
 import '../Styles/Usuarios.css'
 
 //imagnees
-import fondo1 from '../assets/fondo1.jpg'
+import fondo1 from '../assets/Fondo1.jpg'
 import foto1 from '../assets/bloque1.jpg'
 import foto2 from '../assets/bloque2.jpg'
 import foto3 from '../assets/bloque3.jpg'
