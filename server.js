@@ -31,6 +31,8 @@ const app = express();
 
 app.use(bodyParser.json());  
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));  
+
 
 
 // Middleware para asegurarse de que el cuerpo sea crudo y sin procesar
