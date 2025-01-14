@@ -20,7 +20,7 @@ function Usuarios() {
   const [userId, setUserId] = useState(null);
   const [user, setUser] = useState(null);
   const [userName, setUserName] = useState(null); 
-  const [showQRCodeModal, setShowQRCodeModal] = useState(false); // Asegúrate de que esté aquí
+  const [showQRCodeModal, setShowQRCodeModal] = useState(false); 
   const [qrValue, setQrValue] = useState('');
   
   const bloques = [
@@ -55,22 +55,22 @@ function Usuarios() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        setUserId(user.uid);  // Guardamos el uid del usuario
+        setUserId(user.uid);  
 
         // Consulta a Firestore para obtener el nombre del usuario
-        const userDocRef = doc(db, 'users', user.uid);  // Suponiendo que el nombre está guardado en la colección 'users'
+        const userDocRef = doc(db, 'users', user.uid);  
         const userDoc = await getDoc(userDocRef);
 
         if (userDoc.exists()) {
           const userData = userDoc.data();
-          setUserName(userData.name);  // Establecemos el nombre desde la base de datos
+          setUserName(userData.name);  
         } else {
           console.log("No se encontró el documento del usuario.");
-          setUserName('Usuario desconocido');  // Valor predeterminado si no se encuentra el usuario
+          setUserName('Usuario desconocido');  
         }
       } else {
         setUserId(null);
-        setUserName(null);  // Si no hay usuario autenticado
+        setUserName(null);  
       }
     });
 
@@ -127,9 +127,9 @@ function Usuarios() {
     };
   
     if (userId) {
-      fetchCompras(userId); // Llamamos a la función cuando el userId esté disponible
+      fetchCompras(userId); 
     }
-  }, [userId]);  // La dependencia aquí asegura que la función se llame cuando el userId cambie o se recargue
+  }, [userId]);  
   
   
   
@@ -156,7 +156,7 @@ function Usuarios() {
     }
   
     // Si no encontramos el producto, devolvemos valores predeterminados
-    console.log("Producto no encontrado para priceId:", priceId); // Esto es para depuración
+    console.log("Producto no encontrado para priceId:", priceId); 
     return { tipo: 'desconocido', entradasDisponibles: 0 };
   };
   const manejarUsoProducto = async (compra) => {

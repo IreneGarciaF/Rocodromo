@@ -11,9 +11,15 @@ admin.initializeApp({
   credential: admin.credential.cert({
     projectId: process.env.FIREBASE_PROJECT_ID,
     clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-    privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'), // Esto es para corregir los saltos de línea
+    privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'), 
   }),
 });
+
+const corsOptions = {
+  origin: 'https://irenegarciaf.github.io/Rocodromo/', 
+  methods: 'GET,POST', 
+  allowedHeaders: 'Content-Type,Authorization',
+};
 
 const db = admin.firestore();  
 
@@ -23,7 +29,7 @@ const app = express();
 
 
 app.use(bodyParser.json());  
-app.use(cors());
+app.use(cors(corsOptions));
 
 
 // Middleware para asegurarse de que el cuerpo sea crudo y sin procesar
@@ -81,8 +87,8 @@ app.post('/create-checkout-session', async (req, res) => {
         },
       ],
       mode: 'payment',
-      success_url: `http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `http://localhost:5173/cancel`,
+      success_url: `https://irenegarciaf.github.io/Rocodromo/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `https://irenegarciaf.github.io/Rocodromo/cancel`,
     });
 
     // Almacenar la compra en Firestore
@@ -132,8 +138,8 @@ app.post('/create-checkout-session-subscription', async (req, res) => {
         },
       ],
       mode: 'subscription',
-      success_url: `http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `http://localhost:5173/cancel`,
+      success_url: `https://irenegarciaf.github.io/Rocodromo/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `https://irenegarciaf.github.io/Rocodromo/cancel`,
     });
 
     // Almacenar la compra en Firestore
@@ -172,7 +178,7 @@ app.get('/success', async (req, res) => {
     }
 
     const purchaseData = purchaseDoc.data();
-    console.log('Datos de la compra:', purchaseData);  // Verifica los datos de la compra
+    console.log('Datos de la compra:', purchaseData);  
 
     // Obtener el nombre del usuario
     const userRef = db.collection('users').doc(purchaseData.userId);
@@ -183,14 +189,14 @@ app.get('/success', async (req, res) => {
     }
 
     const userData = userDoc.data();
-    console.log('Datos del usuario:', userData);  // Verifica los datos del usuario
+    console.log('Datos del usuario:', userData);  
 
-    const productName = purchaseData.name;  // Usar el campo 'name' en lugar de 'productName'
+    const productName = purchaseData.name;  
 
     // Enviar los datos al frontend
     res.json({
-      userId: userData.name, // Nombre del usuario
-      productName: productName, // Nombre del producto
+      userId: userData.name, 
+      productName: productName, 
     });
 
   } catch (error) {
@@ -225,18 +231,18 @@ app.get('/get-compras/:userId', async (req, res) => {
       // Si encontramos el producto
       if (!productoSnapshot.empty) {
         const productoData = productoSnapshot.docs[0].data();
-        tipo = productoData.tipo;  // 'entrada' o 'abono'
-        entradasDisponibles = productoData.entradasDisponibles;  // 1 o 10
+        tipo = productoData.tipo;  
+        entradasDisponibles = productoData.entradasDisponibles;  
       }
 
       return {
         ...compraData,
-        tipo,  // Añadimos el tipo de producto (entrada o abono)
-        entradasDisponibles  // Añadimos el número de entradas disponibles
+        tipo,  
+        entradasDisponibles  
       };
     }));
 
-    console.log('Compras con detalles:', compras); // Log para verificar los datos
+    console.log('Compras con detalles:', compras); 
     res.json(compras);
   } catch (error) {
     console.error('Error al obtener las compras:', error);
@@ -282,7 +288,7 @@ app.post('/actualizar-compra', async (req, res) => {
   }
 });
 
-const port = process.env.PORT || 5000;  // Usa el puerto proporcionado por Heroku o 5000 en local
+const port = process.env.PORT || 5000;  
 app.listen(port, () => {
   console.log(`Servidor corriendo en el puerto ${port}`);
 });

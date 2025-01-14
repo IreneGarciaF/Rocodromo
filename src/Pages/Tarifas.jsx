@@ -52,9 +52,9 @@ function Tarifas() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ 
-        userId, // El userId del usuario logueado
-        priceId, // El priceId correspondiente al producto seleccionado
-        name, // El nombre del curso o producto
+        userId, 
+        priceId, 
+        name, 
       }),
     });
 
@@ -67,7 +67,7 @@ function Tarifas() {
     // Redirigir al usuario a Stripe Checkout
     const stripe = await stripePromise;
     const { error } = await stripe.redirectToCheckout({
-      sessionId: session.id, // Usamos el ID de la sesión de Stripe
+      sessionId: session.id, 
     });
 
     if (error) {
@@ -104,9 +104,9 @@ const handleCheckoutSubscription = async (priceId, name) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userId, // El userId del usuario logueado
-        priceId, // El priceId correspondiente al plan de suscripción
-        name, // El nombre del producto o plan de suscripción
+        userId, 
+        priceId, 
+        name, 
       }),
     });
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../Styles/Header.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { auth } from '../../firebase-config';  // Importa auth
+import { auth } from '../../firebase-config';  
 import { signOut } from 'firebase/auth';
 import Swal from 'sweetalert2';
 

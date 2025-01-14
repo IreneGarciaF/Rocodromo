@@ -11,13 +11,13 @@ import '../Styles/Bloques.css';
 //imágenes
 import bloque1 from '../assets/bloque1.jpg'
 
-const Bloques = ({ image, name, blockId }) => {  // Ahora recibimos `blockId` como prop
+const Bloques = ({ image, name, blockId }) => {  
     const [hasClimbed, setHasClimbed] = useState(false);
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState('');
     const [comments, setComments] = useState([]);
-    const [loading, setLoading] = useState(true); // Definir el estado loading
-    const [user, setUser] = useState(null); // Maneja el estado de autenticación
+    const [loading, setLoading] = useState(true); 
+    const [user, setUser] = useState(null); 
 
     const handleClimbedChange = (e) => setHasClimbed(e.target.checked);
     const handleRatingChange = (newRating) => setRating(newRating);

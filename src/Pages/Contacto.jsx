@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import Swal from 'sweetalert2';
-import '../Styles/Contacto.css'; // Aquí cargamos el CSS de la página
+import '../Styles/Contacto.css'; 
 
 const Contacto = () => {
   const [contactData, setContactData] = useState({
