@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
+import { HashRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 
 // Rutas
@@ -20,14 +19,6 @@ import ProtectedRoute from './ProtectedRoutes';
 
 function App() {
 
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    // Redirigir explícitamente a la ruta de inicio al cargar la página
-    navigate('/');
-  }, [navigate]);
-
-  
   return (
     <div>
       <Router>
