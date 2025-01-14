@@ -3,7 +3,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, doc, getDoc } from 'firebase/firestore'; 
 import { Container, Row, Button } from 'react-bootstrap';
 import { Link } from "react-router-dom"; 
-import fondo1 from '../assets/fondo1.jpg';
+import fondo1 from '../assets/Fondo1.jpg';
 import '../Styles/Success.css';
 
 function Success() {
