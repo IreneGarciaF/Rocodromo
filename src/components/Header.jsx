@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { auth } from '../../firebase-config';  
 import { signOut } from 'firebase/auth';
 import Swal from 'sweetalert2';
+import { doc, getDoc } from "firebase/firestore";
 
 // Imágenes y Bootstrap
 import logo from '../assets/logo.png';

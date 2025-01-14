@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Button, Col, Row } from 'react-bootstrap/';
-import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 import Swal from 'sweetalert2';
 import '../Styles/inicio.css';
 import { useNavigate, Link } from "react-router-dom";
