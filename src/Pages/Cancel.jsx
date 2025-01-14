@@ -3,7 +3,7 @@ import {Container, Row, Button } from 'react-bootstrap/';
 import '../Styles/Success.css'
 import {  Link } from "react-router-dom";
 
-import fondo1 from '../assets/fondo1.jpg'
+import fondo1 from '../assets/fondo1.jpg';
 
 function Cancel() {
   return (

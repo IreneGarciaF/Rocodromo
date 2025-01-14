@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Button, Col, Row } from 'react-bootstrap/';
 import Swal from 'sweetalert2';
-import '../Styles/Inicio.css';
+import '../Styles/inicio.css';
 import { useNavigate, Link } from "react-router-dom";
 
 // Importaciones de Firebase
