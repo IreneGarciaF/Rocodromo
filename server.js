@@ -16,8 +16,8 @@ admin.initializeApp({
 });
 
 const corsOptions = {
-  origin: 'https://irenegarciaf.github.io/Rocodromo/', 
-  methods: 'GET,POST', 
+  origin: 'https://irenegarciaf.github.io',
+  methods: 'GET,POST,OPTIONS',
   allowedHeaders: 'Content-Type,Authorization',
 };
 
