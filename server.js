@@ -18,7 +18,8 @@ admin.initializeApp({
 const corsOptions = {
   origin: 'https://irenegarciaf.github.io',  
   methods: ['GET', 'POST', 'OPTIONS'],      
-  allowedHeaders: ['Content-Type', 'Authorization'], 
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true, 
 };
 
 const db = admin.firestore();  

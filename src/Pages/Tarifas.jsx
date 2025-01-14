@@ -56,6 +56,7 @@ function Tarifas() {
         priceId, 
         name, 
       }),
+      credentials: 'include', 
     });
 
     if (!response.ok) {
@@ -108,6 +109,7 @@ const handleCheckoutSubscription = async (priceId, name) => {
         priceId, 
         name, 
       }),
+      credentials: 'include', 
     });
 
     // Verifica si la respuesta no es OK
