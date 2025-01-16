@@ -1,4 +1,5 @@
 import express from 'express';
+import path from 'path';
 import stripeLib from 'stripe'; 
 import cors from 'cors'; 
 import admin from 'firebase-admin';
@@ -29,6 +30,8 @@ const db = admin.firestore();
 const endpointSecret = 'whsec_UAdRmIp7LyIIbaX7JIuXigJDrb0JlcN3';
 const stripe = stripeLib('sk_test_51QcqgCQG9VO4iB05bb8o5yxEw7lxBmIXT25bpzX2LTWpqCWCmegN3ATnIJlBGT8eqPoMesRzj1xBSPM2rf9lxk5v00cvAfpshR');  
 const app = express();
+
+app.use(express.static(path.join(__dirname, 'dist')));
 
 
 app.use(bodyParser.json());  
@@ -291,6 +294,10 @@ app.post('/actualizar-compra', async (req, res) => {
     console.error('Error al actualizar la compra:', error);
     res.status(500).send('Error interno del servidor');
   }
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
 const port = process.env.PORT || 5000;  
