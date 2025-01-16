@@ -11,7 +11,7 @@
     "preview": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "start": "node src/app.jsx"
+    "start": "node dist/assets/index-0I9uOBBD.js"
 
   },
   "dependencies": {
