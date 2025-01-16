@@ -4,6 +4,8 @@ import cors from 'cors';
 import admin from 'firebase-admin';
 import bodyParser from 'body-parser';  
 import dotenv from 'dotenv'; 
+import { db } from './firebaseConfig'; 
+
 
 dotenv.config();
 
