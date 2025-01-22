@@ -46,7 +46,7 @@ function Tarifas() {
 
   // Enviar los datos de la compra al backend
   try {
-    const response = await fetch('https://rocodromo-6e10f953f248.herokuapp.com/create-checkout-session', {
+    const response = await fetch('https://rocodromo.onrender.com/create-checkout-session', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -99,7 +99,7 @@ const handleCheckoutSubscription = async (priceId, name) => {
 
   try {
     // Enviar los datos al backend para crear la sesión de suscripción
-    const response = await fetch('https://rocodromo-6e10f953f248.herokuapp.com/create-checkout-session-subscription', {
+    const response = await fetch('https://rocodromo.onrender.com/create-checkout-session-subscription', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

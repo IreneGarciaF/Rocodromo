@@ -1,13 +1,16 @@
-import express from 'express';
-import path from 'path';
-import stripeLib from 'stripe'; 
-import cors from 'cors'; 
-import admin from 'firebase-admin';
-import bodyParser from 'body-parser';  
-import dotenv from 'dotenv'; 
-import { db } from './firebase-config.js'
+const express = require('express');
+const path = require('path');
+const stripeLib = require('stripe');
+const cors = require('cors');
+const admin = require('firebase-admin');
+const bodyParser = require('body-parser');
+const dotenv = require('dotenv');
+const { fileURLToPath } = require('url');
+const { db } = require('./firebase-config.js');
 
-
+// Obtener __dirname en CommonJS
+const __filename = fileURLToPath(import.meta.url); // Solo en módulos ES6
+const __dirname = path.dirname(__filename);
 dotenv.config();
 
 admin.initializeApp({
