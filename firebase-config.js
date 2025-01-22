@@ -1,30 +1,24 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";  // Importamos getAuth para la autenticación
-import { getFirestore } from "firebase/firestore"; // Importamos getFirestore para trabajar con Firestore
-import { getAnalytics } from "firebase/analytics";
+// Importa las funciones necesarias desde Firebase SDK
+import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth'; 
+import { getFirestore } from 'firebase/firestore'; 
 
-// Your web app's Firebase configuration
+// Tu configuración de Firebase
 const firebaseConfig = {
-  apiKey: "AIzaSyBkg_MfKPKj6DpvX9Jw_3qzr8wzIUdYaYs",
-  authDomain: "rocodromo-71c85.firebaseapp.com",
-  projectId: "rocodromo-71c85",
-  storageBucket: "rocodromo-71c85.firebasestorage.app",
-  messagingSenderId: "1046263685630",
-  appId: "1:1046263685630:web:cebb2215c391a31513e0af",
-  measurementId: "G-G96XNS8TJV"
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.FIREBASE_APP_ID,
+  measurementId: process.env.FIREBASE_MEASUREMENT_ID,
 };
 
-
-// Initialize Firebase
+// Inicializa Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 
-// Crear e inicializar la autenticación
-const auth = getAuth(app);  // Creamos la instancia de autenticación
+// Crea las instancias de los servicios que necesitas (auth y firestore)
+const auth = getAuth(app); 
+const db = getFirestore(app);
 
-// Inicializar Firestore
-const db = getFirestore(app);  // Creamos la instancia de Firestore
-
-// Exportamos auth y db para usarlos en otros archivos
 export { auth, db, analytics, app };
