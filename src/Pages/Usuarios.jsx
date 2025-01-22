@@ -100,7 +100,6 @@ function Usuarios() {
         }
   
         // Recuperamos los detalles de las entradas disponibles de la colección "purchases" en Firestore
-        const db = getFirestore();
         const purchasesRef = collection(db, "purchases");
         const q = query(purchasesRef, where("userId", "==", userId));
   
@@ -136,7 +135,6 @@ function Usuarios() {
 
   // Función para obtener el producto 
   const getProductoPorPriceId = async (priceId) => {
-    const db = getFirestore();
     const productosRef = collection(db, 'productos');
     const q = query(productosRef, where('priceId', '==', priceId));
     
@@ -175,8 +173,6 @@ function Usuarios() {
       if (result.isConfirmed) {
         try {
           const nuevasEntradasDisponibles = compra.entradasDisponibles - 1;
-  
-          const db = getFirestore();
           const purchasesRef = collection(db, "purchases");
           const q = query(purchasesRef, where("sessionId", "==", compra.sessionId));
   
