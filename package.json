@@ -2,7 +2,7 @@
   "name": "rocodromo",
   "private": true,
   "version": "0.0.0",
-  "type": "commonjs",
+  "type": "module",
   "homepage": "https://irenegarciaf.github.io/Rocodromo/",
 "scripts": {
   "dev": "vite",
