@@ -34,9 +34,10 @@ app.use(bodyParser.json());
 app.use(cors({
   origin: 'https://irenegarciaf.github.io',  
   methods: ['GET', 'POST'],                
-  allowedHeaders: ['Content-Type', 'Authorization'] 
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
 }));
- 
+app.options('*', cors()); 
 
 
 
