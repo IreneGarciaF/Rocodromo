@@ -1,11 +1,6 @@
 import express from 'express';
 import path from 'path';
 import stripeLib from 'stripe'; 
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-
 import cors from 'cors'; 
 import admin from 'firebase-admin';
 import bodyParser from 'body-parser';  
@@ -13,6 +8,8 @@ import dotenv from 'dotenv';
 import { db } from './firebase-config.js'
 import { fileURLToPath } from 'url';
 
+const __filename = fileURLToPath(import.meta.url);  
+const __dirname = path.dirname(__filename);  
 
 dotenv.config();
 
@@ -24,10 +21,6 @@ admin.initializeApp({
   }),
 });
 
-const corsOptions = {
-  origin: 'https://irenegarciaf.github.io',  
-  credentials: true, 
-};
 
 
 const endpointSecret = 'whsec_UAdRmIp7LyIIbaX7JIuXigJDrb0JlcN3';
@@ -38,8 +31,12 @@ app.use(express.static(path.join(__dirname, 'dist')));
 
 
 app.use(bodyParser.json());  
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));  
+app.use(cors({
+  origin: 'https://irenegarciaf.github.io',  
+  methods: ['GET', 'POST'],                
+  allowedHeaders: ['Content-Type', 'Authorization'] 
+}));
+ 
 
 
 
