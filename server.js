@@ -23,7 +23,10 @@ const app = express();
 
 
 app.use(bodyParser.json());  
-app.use(cors());
+app.use(cors({
+  origin: '*', 
+}));
+
 
 
 // Middleware 
