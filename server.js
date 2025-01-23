@@ -24,9 +24,10 @@ const app = express();
 
 app.use(bodyParser.json());  
 app.use(cors({
-  origin: '*', // Permite todos los orígenes
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Permite todos los métodos HTTP
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'], // Permite todos los encabezados
+  origin: ['https://irenegarciaf.github.io'], 
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  credentials: true, 
 }));
 app.options('*', cors());
 

@@ -69,7 +69,7 @@ const Contacto = () => {
                 />
               </Form.Group>
 
-              <Form.Group controlId="formBasicEmail">
+              <Form.Group controlId="formBasicEmail1">
                 <Form.Control
                   type="email"
                   placeholder="Correo electrónico"
