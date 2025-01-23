@@ -11,7 +11,7 @@ admin.initializeApp({
   credential: admin.credential.cert({
     projectId: process.env.FIREBASE_PROJECT_ID,
     clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-    privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'), 
+    privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\\\n/g, '\\n'), 
   }),
 });
 
@@ -24,7 +24,7 @@ const app = express();
 
 app.use(bodyParser.json());  
 app.use(cors({
-  origin: ['https://irenegarciaf.github.io'], 
+  origin: '*', 
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
   credentials: true, 
@@ -281,7 +281,7 @@ app.post('/actualizar-compra', async (req, res) => {
 
 
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 app.listen(port, () => {
   console.log(`Servidor corriendo en el puerto ${port}`);
