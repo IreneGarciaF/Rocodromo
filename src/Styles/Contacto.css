@@ -92,7 +92,7 @@
 }
 
 .contenedor_contacto {
-    width: 100%; /* El formulario ocupará el 50% */
+    width: 100%; 
     padding: 40px;
     background: #d6dbdf;
     border-radius: 20px;

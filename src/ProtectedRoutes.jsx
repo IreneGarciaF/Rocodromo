@@ -14,16 +14,13 @@ const ProtectedRoute = ({ element }) => {
   }, []);
 
   if (user === null) {
-    // Si no sabemos si el usuario está autenticado aún, no renderizamos nada
     return null;
   }
 
   if (!user) {
-    // Si no está autenticado, redirigimos a /login
     return <Navigate to="/login" />;
   }
 
-  // Si está autenticado, renderizamos el componente
   return element;
 };
 

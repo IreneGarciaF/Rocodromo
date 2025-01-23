@@ -5,7 +5,6 @@ import { loadStripe } from '@stripe/stripe-js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-regular-svg-icons';
 import { getAuth,  onAuthStateChanged  } from "firebase/auth";
-import Swal from 'sweetalert2';
 
 
 //imagenes
@@ -46,7 +45,7 @@ function Tarifas() {
 
   // Enviar los datos de la compra al backend
   try {
-    const response = await fetch('https://rocodromo.onrender.com/create-checkout-session', {
+    const response = await fetch('https://rocodromo-6e10f953f248.herokuapp.com/create-checkout-session', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -56,7 +55,6 @@ function Tarifas() {
         priceId, 
         name, 
       }),
-      credentials: 'include', 
     });
 
     if (!response.ok) {
@@ -68,7 +66,7 @@ function Tarifas() {
     // Redirigir al usuario a Stripe Checkout
     const stripe = await stripePromise;
     const { error } = await stripe.redirectToCheckout({
-      sessionId: session.id, 
+      sessionId: session.id,
     });
 
     if (error) {
@@ -85,13 +83,11 @@ function Tarifas() {
 const handleCheckoutSubscription = async (priceId, name) => {
   const stripe = await stripePromise;
 
-  // Verifica que userId esté disponible
   if (!userId) {
     console.error('userId is missing');
     return;
   }
 
-  // Verifica que priceId y name estén definidos
   if (!priceId || !name) {
     console.error('priceId or name is missing');
     return;
@@ -99,23 +95,22 @@ const handleCheckoutSubscription = async (priceId, name) => {
 
   try {
     // Enviar los datos al backend para crear la sesión de suscripción
-    const response = await fetch('https://rocodromo.onrender.com/create-checkout-session-subscription', {
+    const response = await fetch('https://rocodromo-6e10f953f248.herokuapp.com/create-checkout-session-subscription', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userId, 
+        userId,
         priceId, 
         name, 
       }),
-      credentials: 'include', 
     });
 
     // Verifica si la respuesta no es OK
     if (!response.ok) {
       const errorData = await response.json(); 
-      alert(errorData.error); 
+      alert(errorData.error);  
       return;  
     }
 
@@ -131,11 +126,7 @@ const handleCheckoutSubscription = async (priceId, name) => {
     }
   } catch (error) {
     console.error('Error al enviar la solicitud al backend:', error);
-    Swal.fire({
-      icon: "error",
-      title: "Oops...",
-      text: "Error al comunicarse con el servidor, por favor inténtalo de nuevo más tarde.",
-    });
+    alert('Error al comunicarse con el servidor. Por favor, inténtalo de nuevo más tarde.');
   }
 };
  

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getFirestore, doc, getDoc } from 'firebase/firestore'; // Importa Firestore
+import { getFirestore, doc, getDoc } from 'firebase/firestore'; 
 import { Container, Row, Button } from 'react-bootstrap';
 import { Link } from "react-router-dom"; 
 import fondo1 from '../assets/fondo1.jpg';
@@ -8,7 +8,7 @@ import '../Styles/Success.css';
 
 function Success() {
   const [userId, setUserId] = useState(null);
-  const [userName, setUserName] = useState(null); // Agregado para almacenar el nombre
+  const [userName, setUserName] = useState(null); 
   const [productName, setProductName] = useState(null);
   const [error, setError] = useState(null);
 
@@ -18,19 +18,19 @@ function Success() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        setUserId(user.uid); // Guardamos el uid del usuario
+        setUserId(user.uid); 
 
         // Consulta a Firestore para obtener el nombre del usuario
-        const userDocRef = doc(db, 'users', user.uid); // Referencia al documento del usuario en Firestore
+        const userDocRef = doc(db, 'users', user.uid);
         try {
           const userDoc = await getDoc(userDocRef);
 
           if (userDoc.exists()) {
             const userData = userDoc.data();
-            setUserName(userData.name); // Guardamos el nombre del usuario
+            setUserName(userData.name); 
           } else {
             console.log("No se encontró el documento del usuario.");
-            setUserName('Usuario desconocido'); // Si no se encuentra, asignamos un valor predeterminado
+            setUserName('Usuario desconocido'); 
           }
         } catch (err) {
           console.error("Error al obtener el nombre:", err);
@@ -38,12 +38,12 @@ function Success() {
         }
       } else {
         setUserId(null);
-        setUserName(null); // Si no hay usuario autenticado
+        setUserName(null);
       }
     });
 
     return () => unsubscribe();
-  }, [auth, db]); // Dependencias de useEffect
+  }, [auth, db]); 
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -57,7 +57,7 @@ function Success() {
 
     const fetchSessionData = async () => {
       try {
-        const response = await fetch(`http://localhost:3001/success?session_id=${sessionId}`);
+        const response = await fetch(`https://rocodromo-6e10f953f248.herokuapp.com/success?session_id=${sessionId}`);
         const data = await response.json();
 
         if (!response.ok) {
@@ -65,11 +65,10 @@ function Success() {
           return;
         }
 
-        console.log('Datos de la sesión:', data);  // Verifica los datos recibidos
-
+        console.log('Datos de la sesión:', data);  
         if (data.userId && data.productName) {
-          setUserId(data.userId);  // Guardar el nombre del usuario
-          setProductName(data.productName);  // Guardar el nombre del producto
+          setUserId(data.userId);  
+          setProductName(data.productName);  
         } else {
           setError('No se obtuvo userId o productName');
         }

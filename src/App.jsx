@@ -13,8 +13,6 @@ import Success from './Pages/Success';
 import Cancel from './Pages/Cancel';
 import Bloques from './components/Bloques';
 import Contacto from './Pages/Contacto';
-
-// Componente para rutas protegidas
 import ProtectedRoute from './ProtectedRoutes';
 
 function App() {

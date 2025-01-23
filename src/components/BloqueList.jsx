@@ -7,7 +7,7 @@ import foto2 from '../assets/bloque2.jpg'
 import foto3 from '../assets/bloque3.jpg'
 import foto4 from '../assets/bloque4.jpg'
 
-// Definir bloques con diferentes imágenes
+
 const bloques = [
     {
         blockId: 'bloque1',

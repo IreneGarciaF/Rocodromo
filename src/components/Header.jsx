@@ -47,10 +47,10 @@ function Header() {
       console.log("Estado de autenticación:", user);
 
       if (user) {
-        setUser(user); // Establece el usuario autenticado
+        setUser(user); 
         console.log("Usuario autenticado:", user);
 
-        // Obtener el nombre del usuario desde Firestore (si existe)
+        // Obtener el nombre del usuario desde Firestore
         const getUserName = async () => {
           try {
             const userRef = doc(db, 'users', user.uid);

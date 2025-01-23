@@ -19,7 +19,7 @@ function Usuarios() {
   const [userId, setUserId] = useState(null);
   const [user, setUser] = useState(null);
   const [userName, setUserName] = useState(null); 
-  const [showQRCodeModal, setShowQRCodeModal] = useState(false); // Asegúrate de que esté aquí
+  const [showQRCodeModal, setShowQRCodeModal] = useState(false); 
   const [qrValue, setQrValue] = useState('');
   
   const bloques = [
@@ -54,22 +54,22 @@ function Usuarios() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        setUserId(user.uid);  // Guardamos el uid del usuario
+        setUserId(user.uid);  
 
         // Consulta a Firestore para obtener el nombre del usuario
-        const userDocRef = doc(db, 'users', user.uid);  // Suponiendo que el nombre está guardado en la colección 'users'
+        const userDocRef = doc(db, 'users', user.uid);  
         const userDoc = await getDoc(userDocRef);
 
         if (userDoc.exists()) {
           const userData = userDoc.data();
-          setUserName(userData.name);  // Establecemos el nombre desde la base de datos
+          setUserName(userData.name);  
         } else {
           console.log("No se encontró el documento del usuario.");
-          setUserName('Usuario desconocido');  // Valor predeterminado si no se encuentra el usuario
+          setUserName('Usuario desconocido');  
         }
       } else {
         setUserId(null);
-        setUserName(null);  // Si no hay usuario autenticado
+        setUserName(null);  
       }
     });
 
@@ -86,7 +86,7 @@ function Usuarios() {
   
       try {
         // Llamamos al backend para obtener las compras del usuario
-        const response = await fetch(`http://localhost:3001/get-compras/${userId}`);
+        const response = await fetch(`https://rocodromo-6e10f953f248.herokuapp.com/get-compras/${userId}`);
         if (!response.ok) {
           throw new Error("Error en la solicitud");
         }
@@ -98,14 +98,12 @@ function Usuarios() {
           return;
         }
   
-        // Recuperamos los detalles de las entradas disponibles de la colección "purchases" en Firestore
         const db = getFirestore();
         const purchasesRef = collection(db, "purchases");
         const q = query(purchasesRef, where("userId", "==", userId));
   
         const querySnapshot = await getDocs(q);
   
-        // Asignar las compras y las entradas disponibles de la base de datos
         const updatedPurchases = data.map(compra => {
           const matchingPurchase = querySnapshot.docs.find(doc => doc.id === compra.sessionId);
           if (matchingPurchase) {
@@ -117,7 +115,6 @@ function Usuarios() {
           return compra;
         });
   
-        // Actualizar el estado de las compras con las entradas correctas
         setCompras(updatedPurchases);
   
       } catch (error) {
@@ -126,9 +123,9 @@ function Usuarios() {
     };
   
     if (userId) {
-      fetchCompras(userId); // Llamamos a la función cuando el userId esté disponible
+      fetchCompras(userId); 
     }
-  }, [userId]);  // La dependencia aquí asegura que la función se llame cuando el userId cambie o se recargue
+  }, [userId]);  
   
   
   
@@ -140,11 +137,9 @@ function Usuarios() {
     const q = query(productosRef, where('priceId', '==', priceId));
     
     const querySnapshot = await getDocs(q);
-  
-    // Imprime el número de documentos encontrados
+ 
     console.log(`Documentos encontrados para priceId ${priceId}:`, querySnapshot.size);
-  
-    // Verificamos si la consulta devuelve productos
+ 
     if (!querySnapshot.empty) {
       const producto = querySnapshot.docs[0].data();
       console.log("Producto encontrado:", producto);
@@ -153,9 +148,8 @@ function Usuarios() {
         entradasDisponibles: producto.entradasDisponibles || 0, 
       };
     }
-  
-    // Si no encontramos el producto, devolvemos valores predeterminados
-    console.log("Producto no encontrado para priceId:", priceId); // Esto es para depuración
+
+    console.log("Producto no encontrado para priceId:", priceId); 
     return { tipo: 'desconocido', entradasDisponibles: 0 };
   };
   const manejarUsoProducto = async (compra) => {
@@ -190,10 +184,9 @@ function Usuarios() {
           console.log("Entrada utilizada. Entradas disponibles actualizadas.");
         }
 
-        // Generamos un código QR después de usar la entrada
         setQrValue(`Compra ID: ${compra.sessionId} - Producto: ${compra.name}`);
 
-        // Mostramos el modal con el código QR
+
         setShowQRCodeModal(true);
 
       } catch (error) {
@@ -202,7 +195,6 @@ function Usuarios() {
     } else if (compra.tipo === "abono") {
       alert("Abono utilizado. No se restan entradas.");
 
-      // Generamos el código QR para el abono
       setQrValue(`Abono ID: ${compra.sessionId} - Producto: ${compra.name}`);
       setShowQRCodeModal(true);
     } else {
@@ -212,7 +204,7 @@ function Usuarios() {
 
   const cerrarModal = () => {
     setShowQRCodeModal(false);
-    setQrValue(""); // Limpiamos el QR
+    setQrValue(""); 
   };
 
   

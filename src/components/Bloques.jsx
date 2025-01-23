@@ -112,7 +112,7 @@ const Bloques = ({ image, name, blockId }) => {
             const querySnapshot = await getDocs(commentsRef);
             const commentsData = querySnapshot.docs
                 .map(doc => doc.data())
-                .filter(comment => comment.blockId === blockId);  // Filtramos por `blockId`
+                .filter(comment => comment.blockId === blockId);  
             setComments(commentsData);
         } catch (error) {
             console.error("Error fetching comments:", error);

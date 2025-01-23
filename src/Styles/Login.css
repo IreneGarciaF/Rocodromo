@@ -15,7 +15,7 @@
     justify-content: center;
     align-items: center;
     position: relative;
-    z-index: 1; /* Coloca el fondo en el fondo de la capa */
+    z-index: 1; 
     overflow-y: hidden;
 }
 
@@ -95,7 +95,7 @@
         z-index: 3;
     }
     
-    /* Cuando el formulario de login se mueve */
+
     .contenedor_login-registrar.moved {
         left: 200px;
         opacity: 1; 
