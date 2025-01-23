@@ -5,15 +5,13 @@ import admin from 'firebase-admin';
 import bodyParser from 'body-parser';  
 import dotenv from 'dotenv'; 
 
-
 dotenv.config();
-
 
 admin.initializeApp({
   credential: admin.credential.cert({
     projectId: process.env.FIREBASE_PROJECT_ID,
     clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-    privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\\\n/g, '\\n'), 
+    privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'), // Esto es para corregir los saltos de línea
   }),
 });
 
@@ -25,15 +23,10 @@ const app = express();
 
 
 app.use(bodyParser.json());  
-app.use(cors({
-  origin: 'https://irenegarciaf.github.io', 
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
-  credentials: true, 
-}));
-app.options('*', cors());
+app.use(cors());
 
-// Middleware 
+
+// Middleware para asegurarse de que el cuerpo sea crudo y sin procesar
 app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
   const sig = req.headers['stripe-signature'];
 
@@ -48,12 +41,14 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
     return res.status(400).send(`Webhook error: ${err.message}`);
   }
 
+  // Handle the checkout session completed event
    if (event.type === 'checkout.session.completed') {
     const session = event.data.object;
 
+    // Actualizar el estado de la compra en Firestore
     const purchaseRef = db.collection('purchases').doc(session.id);
     await purchaseRef.update({
-      comprado: true, 
+      comprado: true, // Marcar como comprado
     });
   }
   res.status(200).send('Evento recibido');
@@ -61,6 +56,7 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
 
 
 
+// Rutas para crear las sesiones de pago (mantén el resto del código igual)
 app.post('/create-checkout-session', async (req, res) => {
   const { userId, priceId, name } = req.body;
   try {
@@ -75,6 +71,7 @@ app.post('/create-checkout-session', async (req, res) => {
   // Determinar el número de entradas según el priceId
   const entradasDisponibles = entradasPorProducto[priceId] || 0;
 
+    // Crear la sesión de Stripe
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
@@ -84,8 +81,8 @@ app.post('/create-checkout-session', async (req, res) => {
         },
       ],
       mode: 'payment',
-      success_url: `https://irenegarciaf.github.io/Rocodromo/#/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `https://irenegarciaf.github.io/Rocodromo/#/cancel`,
+      success_url: `http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `http://localhost:5173/cancel`,
     });
 
     // Almacenar la compra en Firestore
@@ -98,6 +95,7 @@ app.post('/create-checkout-session', async (req, res) => {
       entradasDisponibles, 
     });
 
+    // Enviar el ID de la sesión de Stripe al frontend
     res.json({ id: session.id });
   } catch (error) {
     console.error('Error al crear la sesión de pago:', error);
@@ -110,6 +108,7 @@ app.post('/create-checkout-session', async (req, res) => {
 app.post('/create-checkout-session-subscription', async (req, res) => {
   const { userId, priceId, name } = req.body;
 
+  // Verifica si los datos son válidos
   if (!userId || !priceId || !name) {
     return res.status(400).json({ error: 'Faltan datos necesarios (userId, priceId, name).' });
   }
@@ -133,8 +132,8 @@ app.post('/create-checkout-session-subscription', async (req, res) => {
         },
       ],
       mode: 'subscription',
-      success_url: `https://irenegarciaf.github.io/Rocodromo/#/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `https://irenegarciaf.github.io/Rocodromo/#/cancel`,
+      success_url: `http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `http://localhost:5173/cancel`,
     });
 
     // Almacenar la compra en Firestore
@@ -147,6 +146,7 @@ app.post('/create-checkout-session-subscription', async (req, res) => {
       fecha: new Date().toISOString(),
     });
 
+    // Devolver la sesión de Stripe como JSON
     res.json({ id: session.id });
   } catch (error) {
     console.error('Error al crear la sesión de suscripción:', error);
@@ -160,7 +160,7 @@ app.post('/create-checkout-session-subscription', async (req, res) => {
 
 app.get('/success', async (req, res) => {
   const sessionId = req.query.session_id;
-  console.log('Session ID recibido:', sessionId);  
+  console.log('Session ID recibido:', sessionId);  // Verifica que el sessionId se recibe correctamente
 
   try {
     // Buscar la compra en Firestore usando el sessionId
@@ -172,8 +172,9 @@ app.get('/success', async (req, res) => {
     }
 
     const purchaseData = purchaseDoc.data();
-    console.log('Datos de la compra:', purchaseData);  
+    console.log('Datos de la compra:', purchaseData);  // Verifica los datos de la compra
 
+    // Obtener el nombre del usuario
     const userRef = db.collection('users').doc(purchaseData.userId);
     const userDoc = await userRef.get();
 
@@ -182,14 +183,14 @@ app.get('/success', async (req, res) => {
     }
 
     const userData = userDoc.data();
-    console.log('Datos del usuario:', userData);  
+    console.log('Datos del usuario:', userData);  // Verifica los datos del usuario
 
-    const productName = purchaseData.name;  
+    const productName = purchaseData.name;  // Usar el campo 'name' en lugar de 'productName'
 
-  
+    // Enviar los datos al frontend
     res.json({
-      userId: userData.name,
-      productName: productName,
+      userId: userData.name, // Nombre del usuario
+      productName: productName, // Nombre del producto
     });
 
   } catch (error) {
@@ -224,18 +225,18 @@ app.get('/get-compras/:userId', async (req, res) => {
       // Si encontramos el producto
       if (!productoSnapshot.empty) {
         const productoData = productoSnapshot.docs[0].data();
-        tipo = productoData.tipo; 
-        entradasDisponibles = productoData.entradasDisponibles; 
+        tipo = productoData.tipo;  // 'entrada' o 'abono'
+        entradasDisponibles = productoData.entradasDisponibles;  // 1 o 10
       }
 
       return {
         ...compraData,
-        tipo,  
-        entradasDisponibles  
+        tipo,  // Añadimos el tipo de producto (entrada o abono)
+        entradasDisponibles  // Añadimos el número de entradas disponibles
       };
     }));
 
-    console.log('Compras con detalles:', compras);
+    console.log('Compras con detalles:', compras); // Log para verificar los datos
     res.json(compras);
   } catch (error) {
     console.error('Error al obtener las compras:', error);
@@ -283,8 +284,6 @@ app.post('/actualizar-compra', async (req, res) => {
 
 
 
-const port = process.env.PORT || 5000;
-
-app.listen(port, () => {
-  console.log(`Servidor corriendo en el puerto ${port}`);
+app.listen(3001, () => {
+  console.log('Server running on port 3001');
 });

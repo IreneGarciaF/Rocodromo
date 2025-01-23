@@ -45,16 +45,15 @@ function Tarifas() {
 
   // Enviar los datos de la compra al backend
   try {
-    const response = await fetch('https://rocodromo-6e10f953f248.herokuapp.com/create-checkout-session', {
+    const response = await fetch('http://localhost:3001/create-checkout-session', {
       method: 'POST',
-      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ 
-        userId, 
-        priceId, 
-        name, 
+        userId, // El userId del usuario logueado
+        priceId, // El priceId correspondiente al producto seleccionado
+        name, // El nombre del curso o producto
       }),
     });
 
@@ -67,7 +66,7 @@ function Tarifas() {
     // Redirigir al usuario a Stripe Checkout
     const stripe = await stripePromise;
     const { error } = await stripe.redirectToCheckout({
-      sessionId: session.id,
+      sessionId: session.id, // Usamos el ID de la sesión de Stripe
     });
 
     if (error) {
@@ -84,11 +83,13 @@ function Tarifas() {
 const handleCheckoutSubscription = async (priceId, name) => {
   const stripe = await stripePromise;
 
+  // Verifica que userId esté disponible
   if (!userId) {
     console.error('userId is missing');
     return;
   }
 
+  // Verifica que priceId y name estén definidos
   if (!priceId || !name) {
     console.error('priceId or name is missing');
     return;
@@ -96,31 +97,30 @@ const handleCheckoutSubscription = async (priceId, name) => {
 
   try {
     // Enviar los datos al backend para crear la sesión de suscripción
-    const response = await fetch('https://rocodromo-6e10f953f248.herokuapp.com/create-checkout-session-subscription', {
+    const response = await fetch('http://localhost:3001/create-checkout-session-subscription', {
       method: 'POST',
-      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userId,
-        priceId, 
-        name, 
+        userId, // El userId del usuario logueado
+        priceId, // El priceId correspondiente al plan de suscripción
+        name, // El nombre del producto o plan de suscripción
       }),
     });
 
     // Verifica si la respuesta no es OK
     if (!response.ok) {
-      const errorData = await response.json(); 
-      alert(errorData.error);  
-      return;  
+      const errorData = await response.json(); // Asegúrate de que la respuesta esté en formato JSON
+      alert(errorData.error);  // Mostrar el mensaje de error del backend
+      return;  // Evitar continuar si hay un error
     }
 
     const session = await response.json();
 
     // Redirigir al usuario a Stripe Checkout
     const { error } = await stripe.redirectToCheckout({
-      sessionId: session.id, 
+      sessionId: session.id, // Usamos el ID de la sesión de Stripe
     });
 
     if (error) {
