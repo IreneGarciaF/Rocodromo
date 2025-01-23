@@ -24,10 +24,11 @@ const app = express();
 
 app.use(bodyParser.json());  
 app.use(cors({
-  origin: '*', 
+  origin: '*', // Permite todos los orígenes
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Permite todos los métodos HTTP
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'], // Permite todos los encabezados
 }));
-
-
+app.options('*', cors());
 
 // Middleware 
 app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
