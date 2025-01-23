@@ -1,15 +1,9 @@
 import express from 'express';
-import path from 'path';
 import stripeLib from 'stripe'; 
 import cors from 'cors'; 
 import admin from 'firebase-admin';
 import bodyParser from 'body-parser';  
 import dotenv from 'dotenv'; 
-import { db } from './firebase-config.js'
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);  
-const __dirname = path.dirname(__filename);  
 
 dotenv.config();
 
@@ -17,28 +11,19 @@ admin.initializeApp({
   credential: admin.credential.cert({
     projectId: process.env.FIREBASE_PROJECT_ID,
     clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-    privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'), 
+    privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'), // Esto es para corregir los saltos de línea
   }),
 });
 
-
+const db = admin.firestore();  
 
 const endpointSecret = 'whsec_UAdRmIp7LyIIbaX7JIuXigJDrb0JlcN3';
 const stripe = stripeLib('sk_test_51QcqgCQG9VO4iB05bb8o5yxEw7lxBmIXT25bpzX2LTWpqCWCmegN3ATnIJlBGT8eqPoMesRzj1xBSPM2rf9lxk5v00cvAfpshR');  
 const app = express();
 
-app.use(express.static(path.join(__dirname, 'dist')));
-
 
 app.use(bodyParser.json());  
-app.use(cors({
-  origin: 'https://irenegarciaf.github.io',  
-  methods: ['GET', 'POST'],                
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
-}));
-app.options('*', cors()); 
-
+app.use(cors());
 
 
 // Middleware para asegurarse de que el cuerpo sea crudo y sin procesar
@@ -96,8 +81,8 @@ app.post('/create-checkout-session', async (req, res) => {
         },
       ],
       mode: 'payment',
-      success_url: `https://irenegarciaf.github.io/Rocodromo/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `https://irenegarciaf.github.io/Rocodromo/cancel`,
+      success_url: `http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `http://localhost:5173/cancel`,
     });
 
     // Almacenar la compra en Firestore
@@ -147,8 +132,8 @@ app.post('/create-checkout-session-subscription', async (req, res) => {
         },
       ],
       mode: 'subscription',
-      success_url: `https://irenegarciaf.github.io/Rocodromo/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `https://irenegarciaf.github.io/Rocodromo/cancel`,
+      success_url: `http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `http://localhost:5173/cancel`,
     });
 
     // Almacenar la compra en Firestore
@@ -187,7 +172,7 @@ app.get('/success', async (req, res) => {
     }
 
     const purchaseData = purchaseDoc.data();
-    console.log('Datos de la compra:', purchaseData);  
+    console.log('Datos de la compra:', purchaseData);  // Verifica los datos de la compra
 
     // Obtener el nombre del usuario
     const userRef = db.collection('users').doc(purchaseData.userId);
@@ -198,14 +183,14 @@ app.get('/success', async (req, res) => {
     }
 
     const userData = userDoc.data();
-    console.log('Datos del usuario:', userData);  
+    console.log('Datos del usuario:', userData);  // Verifica los datos del usuario
 
-    const productName = purchaseData.name;  
+    const productName = purchaseData.name;  // Usar el campo 'name' en lugar de 'productName'
 
     // Enviar los datos al frontend
     res.json({
-      userId: userData.name, 
-      productName: productName, 
+      userId: userData.name, // Nombre del usuario
+      productName: productName, // Nombre del producto
     });
 
   } catch (error) {
@@ -240,18 +225,18 @@ app.get('/get-compras/:userId', async (req, res) => {
       // Si encontramos el producto
       if (!productoSnapshot.empty) {
         const productoData = productoSnapshot.docs[0].data();
-        tipo = productoData.tipo;  
-        entradasDisponibles = productoData.entradasDisponibles;  
+        tipo = productoData.tipo;  // 'entrada' o 'abono'
+        entradasDisponibles = productoData.entradasDisponibles;  // 1 o 10
       }
 
       return {
         ...compraData,
-        tipo,  
-        entradasDisponibles  
+        tipo,  // Añadimos el tipo de producto (entrada o abono)
+        entradasDisponibles  // Añadimos el número de entradas disponibles
       };
     }));
 
-    console.log('Compras con detalles:', compras); 
+    console.log('Compras con detalles:', compras); // Log para verificar los datos
     res.json(compras);
   } catch (error) {
     console.error('Error al obtener las compras:', error);
@@ -297,11 +282,8 @@ app.post('/actualizar-compra', async (req, res) => {
   }
 });
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-});
 
-const port = process.env.PORT || 3000;  
-app.listen(port, () => {
-  console.log(`Servidor corriendo en el puerto ${port}`);
+
+app.listen(3001, () => {
+  console.log('Server running on port 3001');
 });

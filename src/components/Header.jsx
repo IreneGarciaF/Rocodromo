@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { auth } from '../../firebase-config';  
 import { signOut } from 'firebase/auth';
 import Swal from 'sweetalert2';
-import { doc, getDoc } from "firebase/firestore";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
 
 // Imágenes y Bootstrap
 import logo from '../assets/logo.png';
@@ -17,6 +17,7 @@ function Header() {
   const [user, setUser] = useState(null);
   const [userName, setUserName] = useState(""); 
   const navigate = useNavigate();
+  const db = getFirestore();
 
   // Función de manejo de cierre de sesión
   const handleLogout = async () => {
