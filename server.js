@@ -27,7 +27,7 @@ const app = express();
 
 app.use(bodyParser.json());  
 app.use(cors({
-  origin: '*', 
+  origin: 'https://irenegarciaf.github.io', 
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
   credentials: true, 

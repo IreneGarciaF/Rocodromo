@@ -151,7 +151,7 @@ const LoginRegister = () => {
           <div className={`contenedor_login-registrar ${isFormMoved ? "moved" : ""}`}>
             <Form className={`formulario_login ${isRegistering ? "formulario_hidden" : "formulario_visible"}`} onSubmit={handleLoginSubmit}>
               <h2>Iniciar sesión</h2>
-              <Form.Group controlId="formBasicEmail">
+              <Form.Group controlId="formBasicEmail2">
                 <Form.Control type="email" placeholder="Correo Electrónico" name="email" value={loginData.email} onChange={handleChange} />
               </Form.Group>
               <Form.Group controlId="formLoginPassword">
@@ -166,7 +166,7 @@ const LoginRegister = () => {
               <Form.Group controlId="formBasicName">
                 <Form.Control type="text" placeholder="Nombre de Usuario" name="name" value={registerData.name} onChange={handleChange} />
               </Form.Group>
-              <Form.Group controlId="formBasicEmail">
+              <Form.Group controlId="formBasicEmail3">
                 <Form.Control type="email" placeholder="Correo electrónico" name="email" value={registerData.email} onChange={handleChange} />
               </Form.Group>
               <Form.Group controlId="formRegisterPassword">
