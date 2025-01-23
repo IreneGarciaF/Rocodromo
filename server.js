@@ -77,8 +77,8 @@ app.post('/create-checkout-session', async (req, res) => {
         },
       ],
       mode: 'payment',
-      success_url: `http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `http://localhost:5173/cancel`,
+      success_url: `https://irenegarciaf.github.io/Rocodromo/#/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `https://irenegarciaf.github.io/Rocodromo/#/cancel`,
     });
 
     // Almacenar la compra en Firestore
@@ -126,8 +126,8 @@ app.post('/create-checkout-session-subscription', async (req, res) => {
         },
       ],
       mode: 'subscription',
-      success_url: `http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `http://localhost:5173/cancel`,
+      success_url: `https://irenegarciaf.github.io/Rocodromo/#/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `https://irenegarciaf.github.io/Rocodromo/#/cancel`,
     });
 
     // Almacenar la compra en Firestore
@@ -218,7 +218,7 @@ app.get('/get-compras/:userId', async (req, res) => {
       if (!productoSnapshot.empty) {
         const productoData = productoSnapshot.docs[0].data();
         tipo = productoData.tipo; 
-        entradasDisponibles = productoData.entradasDisponibles;  // 1 o 10
+        entradasDisponibles = productoData.entradasDisponibles; 
       }
 
       return {
