@@ -4,11 +4,10 @@ import cors from 'cors';
 import admin from 'firebase-admin';
 import bodyParser from 'body-parser';  
 import dotenv from 'dotenv'; 
-import fs from 'fs';
+
 
 dotenv.config();
 
-const serviceAccount = JSON.parse(fs.readFileSync(process.env.FIREBASE_SERVICE_ACCOUNT_JSON, 'utf8')); 
 
 admin.initializeApp({
   credential: admin.credential.cert({
