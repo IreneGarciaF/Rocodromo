@@ -34,7 +34,6 @@ const bloques = [
 const BloquesList = () => {
     return (
         <Container fluid>
-            {/* Mapeamos sobre los bloques definidos en el arreglo */}
             {bloques.map((bloque) => (
                 <Bloques 
                     key={bloque.blockId}

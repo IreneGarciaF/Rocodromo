@@ -45,7 +45,6 @@ const LoginRegister = () => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
-        // Cargar los datos adicionales del usuario desde Firestore
         const userDocRef = doc(db, "users", currentUser.uid);
         getDoc(userDocRef).then((docSnapshot) => {
           if (docSnapshot.exists()) {

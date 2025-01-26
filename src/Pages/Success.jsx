@@ -45,8 +45,7 @@ function Success() {
   }, [auth, db]); 
 
   useEffect(() => {
-    // Cambiar a window.location.hash para obtener los parámetros desde la URL con hash
-    const hashParams = new URLSearchParams(window.location.hash.split('?')[1]); // Esto ahora lee después del `?` en el hash
+    const hashParams = new URLSearchParams(window.location.hash.split('?')[1]); 
     const sessionId = hashParams.get('session_id');
     console.log('Session ID recibido en frontend:', sessionId);
 

@@ -105,13 +105,12 @@ app.post('/create-checkout-session', async (req, res) => {
 app.post('/create-checkout-session-subscription', async (req, res) => {
   const { userId, priceId, name } = req.body;
 
-  // Verifica si los datos son válidos
+
   if (!userId || !priceId || !name) {
     return res.status(400).json({ error: 'Faltan datos necesarios (userId, priceId, name).' });
   }
 
   try {
-    // Verifica si ya existe una compra con el mismo priceId y userId
     const comprasRef = db.collection('purchases');
     const snapshot = await comprasRef.where('userId', '==', userId).where('name', '==', name).get();
 
@@ -119,7 +118,6 @@ app.post('/create-checkout-session-subscription', async (req, res) => {
       return res.status(400).json({ error: 'Ya tienes un abono activo, no puedes comprar otro.' });
     }
 
-    // Crear la sesión de Stripe
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
@@ -143,7 +141,6 @@ app.post('/create-checkout-session-subscription', async (req, res) => {
       fecha: new Date().toISOString(),
     });
 
-    // Devolver la sesión de Stripe como JSON
     res.json({ id: session.id });
   } catch (error) {
     console.error('Error al crear la sesión de suscripción:', error);
@@ -157,7 +154,7 @@ app.post('/create-checkout-session-subscription', async (req, res) => {
 
 app.get('/success', async (req, res) => {
   const sessionId = req.query.session_id;
-  console.log('Session ID recibido:', sessionId);  // Verifica que el sessionId se recibe correctamente
+  console.log('Session ID recibido:', sessionId);  
 
   try {
     // Buscar la compra en Firestore usando el sessionId
@@ -169,9 +166,8 @@ app.get('/success', async (req, res) => {
     }
 
     const purchaseData = purchaseDoc.data();
-    console.log('Datos de la compra:', purchaseData);  // Verifica los datos de la compra
+    console.log('Datos de la compra:', purchaseData); 
 
-    // Obtener el nombre del usuario
     const userRef = db.collection('users').doc(purchaseData.userId);
     const userDoc = await userRef.get();
 
@@ -180,14 +176,14 @@ app.get('/success', async (req, res) => {
     }
 
     const userData = userDoc.data();
-    console.log('Datos del usuario:', userData);  // Verifica los datos del usuario
+    console.log('Datos del usuario:', userData);  
 
-    const productName = purchaseData.name;  // Usar el campo 'name' en lugar de 'productName'
+    const productName = purchaseData.name;  
 
-    // Enviar los datos al frontend
+    
     res.json({
-      userId: userData.name, // Nombre del usuario
-      productName: productName, // Nombre del producto
+      userId: userData.name, 
+      productName: productName, 
     });
 
   } catch (error) {
@@ -200,7 +196,6 @@ app.get('/success', async (req, res) => {
 app.get('/get-compras/:userId', async (req, res) => {
   const userId = req.params.userId;
   try {
-    // Obtener las compras del usuario
     const comprasRef = db.collection('purchases');
     const snapshot = await comprasRef.where('userId', '==', userId).get();
 
@@ -208,32 +203,30 @@ app.get('/get-compras/:userId', async (req, res) => {
       return res.status(404).send('No se encontraron compras para este usuario');
     }
 
-    // Obtener los datos de las compras
     const compras = await Promise.all(snapshot.docs.map(async (doc) => {
       const compraData = doc.data();
       
-      // Obtener los detalles del producto relacionado con esta compra
       const productoRef = db.collection('productos').where('nombre', '==', compraData.name);
       const productoSnapshot = await productoRef.get();
 
       let tipo = '';
       let entradasDisponibles = 0;
       
-      // Si encontramos el producto
+
       if (!productoSnapshot.empty) {
         const productoData = productoSnapshot.docs[0].data();
-        tipo = productoData.tipo;  // 'entrada' o 'abono'
-        entradasDisponibles = productoData.entradasDisponibles;  // 1 o 10
+        tipo = productoData.tipo; 
+        entradasDisponibles = productoData.entradasDisponibles; 
       }
 
       return {
         ...compraData,
-        tipo,  // Añadimos el tipo de producto (entrada o abono)
-        entradasDisponibles  // Añadimos el número de entradas disponibles
+        tipo, 
+        entradasDisponibles  
       };
     }));
 
-    console.log('Compras con detalles:', compras); // Log para verificar los datos
+    console.log('Compras con detalles:', compras); 
     res.json(compras);
   } catch (error) {
     console.error('Error al obtener las compras:', error);
@@ -260,11 +253,9 @@ app.post('/actualizar-compra', async (req, res) => {
 
     if (tipo === 'entrada') {
       if (entradasDisponibles === 1) {
-        // Si es una entrada de un solo uso, eliminar el producto
         await compraRef.delete();
         return res.status(200).send('Entrada utilizada y eliminada');
       } else {
-        // Si es un pack, actualizar el contador de entradas disponibles
         await compraRef.update({
           entradasDisponibles: entradasDisponibles - 1,
         });

@@ -47,7 +47,6 @@ function Primero() {
             <h6> Seguro que más cerca de lo que pensabas: </h6>
             <p> Ven a visitarnos en la Calle de los Pintores 7 (CP 28923) en Alcorcón, Madrid</p>
             
-            {/* Contenedor para el mapa con estilo CSS */}
             <div className="mapa-container">
                 <Mapa />
             </div>
