@@ -11,7 +11,7 @@ admin.initializeApp({
   credential: admin.credential.cert({
     projectId: process.env.FIREBASE_PROJECT_ID,
     clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-    privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'), // Esto es para corregir los saltos de línea
+    privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
   }),
 });
 
@@ -45,10 +45,9 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
    if (event.type === 'checkout.session.completed') {
     const session = event.data.object;
 
-    // Actualizar el estado de la compra en Firestore
     const purchaseRef = db.collection('purchases').doc(session.id);
     await purchaseRef.update({
-      comprado: true, // Marcar como comprado
+      comprado: true, 
     });
   }
   res.status(200).send('Evento recibido');
@@ -68,10 +67,8 @@ app.post('/create-checkout-session', async (req, res) => {
     "price_1QcqoxQG9VO4iB05OEgxk82Z": 10,
   };
 
-  // Determinar el número de entradas según el priceId
   const entradasDisponibles = entradasPorProducto[priceId] || 0;
 
-    // Crear la sesión de Stripe
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
@@ -81,8 +78,8 @@ app.post('/create-checkout-session', async (req, res) => {
         },
       ],
       mode: 'payment',
-      success_url: `http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `http://localhost:5173/cancel`,
+      success_url: `http://localhost:5173/#/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `http://localhost:5173/#/cancel`,      
     });
 
     // Almacenar la compra en Firestore
@@ -132,8 +129,8 @@ app.post('/create-checkout-session-subscription', async (req, res) => {
         },
       ],
       mode: 'subscription',
-      success_url: `http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `http://localhost:5173/cancel`,
+      success_url: `http://localhost:5173/#/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `http://localhost:5173/#/cancel`,    
     });
 
     // Almacenar la compra en Firestore

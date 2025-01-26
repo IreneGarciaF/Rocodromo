@@ -4,6 +4,7 @@ import { getFirestore, collection, getDocs, query, where, updateDoc, doc, getDoc
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import QRCode from 'react-qr-code';
 import Bloques from '../components/Bloques'
+import Swal from 'sweetalert2';
 import '../Styles/Usuarios.css'
 
 //imagnees
@@ -158,17 +159,24 @@ function Usuarios() {
     console.log("Producto no encontrado para priceId:", priceId); // Esto es para depuración
     return { tipo: 'desconocido', entradasDisponibles: 0 };
   };
+
   const manejarUsoProducto = async (compra) => {
     if (compra.tipo === "entrada" && compra.entradasDisponibles > 0) {
-      const confirmUso = window.confirm(
-        "Estás a punto de utilizar una entrada. Hazlo en la puerta del rocódromo, ya que no podrás recuperar esta entrada. ¿Estás seguro?"
-      );
+      // Usamos SweetAlert2 en lugar de window.confirm
+      const { isConfirmed } = await Swal.fire({
+        title: 'Estás a punto de utilizar una entrada',
+        text: "Hazlo en la puerta del rocódromo, ya que no podrás recuperar esta entrada. ¿Estás seguro?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, usar entrada',
+        cancelButtonText: 'Cancelar',
+      });
 
-      if (!confirmUso) return;
+      if (!isConfirmed) return;
 
       try {
         const nuevasEntradasDisponibles = compra.entradasDisponibles - 1;
-        
+
         const db = getFirestore();
         const purchasesRef = collection(db, "purchases");
         const q = query(purchasesRef, where("sessionId", "==", compra.sessionId));
@@ -226,10 +234,15 @@ function Usuarios() {
       <h1> ¡Bienvenido a tu página de usuario! </h1>
         <h3>Tus productos:</h3>
         <ul>
-          {compras.length > 0 ? (
-            compras.map((compra, index) => {
-              return (
-                <li className="lista-productos" key={index}>
+        {compras.length > 0 ? (
+          compras.map((compra, index) => {
+            // Verifica si el producto tiene entradas disponibles > 0
+            if (compra.entradasDisponibles <= 0) {
+              return null; // No renderiza el producto si las entradas son 0 o menos
+            }
+
+            return (
+              <li className="lista-productos" key={index}>
                 <div className="product-name-row">
                   <h6>Nombre del producto: </h6><h5>{compra.name}</h5>
                 </div>
@@ -255,13 +268,13 @@ function Usuarios() {
                   )}
                 </div>
               </li>
+            );
+          })
+        ) : (
+          <p>No tienes productos registrados.</p>
+        )}
+      </ul>
 
-              );
-            })
-          ) : (
-            <p>No tienes productos registrados.</p>
-          )}
-        </ul>
       </Row>
 
       <Modal show={showQRCodeModal} onHide={cerrarModal}>
